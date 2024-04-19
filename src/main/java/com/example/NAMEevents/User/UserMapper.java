@@ -2,7 +2,7 @@ package com.example.NAMEevents.User;
 
 import com.example.NAMEevents.Role.Role;
 import com.example.NAMEevents.Role.RoleRepository;
-import com.example.EventHub.WebSecurityConfig;
+import com.example.NAMEevents.WebSecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

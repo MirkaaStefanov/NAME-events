@@ -91,7 +91,7 @@ public class EventService {
             minPrice = maxPrice1;
         }
 
-        model.addAttribute("allEvents", eventRepository.findByPlaceTypeDateAndPrice(name, place, type, date, minPrice, maxPrice));
+       // model.addAttribute("allEvents", eventRepository.findByPlaceTypeDateAndPrice(name, place, type, date, minPrice, maxPrice));
         return "all-events";
     }
 
