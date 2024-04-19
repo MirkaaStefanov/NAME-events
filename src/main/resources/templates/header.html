@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Title</title>
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <style>
+    /* Custom CSS for navbar */
+    .navbar {
+      background-color: #343a40; /* Dark background color */
+    }
+
+    .navbar-brand {
+      color: #fff; /* White text color */
+      font-weight: bold; /* Bold font weight */
+    }
+
+    .navbar-nav .nav-link {
+      color: #fff; /* White text color */
+    }
+
+    .navbar-nav .nav-link:hover {
+      color: #f8f9fa; /* Lighter text color on hover */
+    }
+
+    .btn-primary, .btn-warning {
+      margin-left: 10px; /* Add some spacing between buttons */
+    }
+  </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/home">EventHub</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav mr-auto">
+        <a sec:authorize="hasAuthority('Admin')"  class="nav-link" href="/event/add">Add Event</a>
+        <a sec:authorize="hasAuthority('Manager')"  class="nav-link" href="/event/add">Add Event</a>
+        <a sec:authorize="hasAuthority('Manager') or hasAuthority('Admin')" class="nav-link" href="/event-type/add">Add Event Type</a>
+        <a sec:authorize="hasAuthority('Manager') or hasAuthority('Admin')"  class="nav-link" href="/event-type/all">All Event Types</a>
+        <a sec:authorize="hasAuthority('Admin') " class="nav-link" href="/organisation/add">Add Organisation</a>
+        <a class="nav-link" href="/event/all">All Events</a>
+        <a class="nav-link" href="/organisation/all">All Organisations</a>
+      </div>
+      <div class="ml-auto">
+        <a class="nav-link active" sec:authorize="isAuthenticated()" href="/profile">Profile</a>
+        <a class="nav-link active" sec:authorize="isAnonymous()" href="/login">Sign In</a>
+        <a class="nav-link active" sec:authorize="isAnonymous()" href="/registration">Sign Up</a>
+      </div>
+      <form th:action="@{/logout}" method="post" class="ml-3">
+        <button class="btn btn-primary" type="submit">Sign Out</button>
+      </form>
+    </div>
+  </div>
+</nav>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

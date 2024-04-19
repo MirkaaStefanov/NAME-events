@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Event</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/styles.css" rel="stylesheet">
+</head>
+<body>
+<header th:insert="~{header.html}"></header>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="text-center">Add Event</h3>
+                </div>
+                <div class="card-body">
+                    <form action="#" th:action="@{/event/update?id=' + ${updateEvent.id}}" th:object="${updateEvent}" method="post">
+                        <div class="form-group">
+                            Event name:
+                            <input type="text" th:field="*{name}">
+                            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+                        </div>
+
+                        <div class="form-group">
+                            Date:
+                            <input type="date" th:field="*{date}">
+                            <span th:if="${#fields.hasErrors('date')}" th:errors="*{date}"></span>
+                        </div>
+                        <div class="form-group">
+                            Start time:
+                            <input type="time" th:field="*{time}">
+                            <span th:if="${#fields.hasErrors('time')}" th:errors="*{time}"></span>
+                        </div>
+                        <div class="form-group">
+                            Duration:
+                            <input type="number" th:field="*{duration}">
+                            <span th:if="${#fields.hasErrors('duration')}" th:errors="*{duration}"></span>
+                        </div>
+                        <div class="form-group">
+                            Description:
+                            <input type="text" th:field="*{description}">
+                            <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span>
+                        </div>
+                        <div class="form-group">
+                            Place:
+                            <input type="text" th:field="*{place}">
+                            <span th:if="${#fields.hasErrors('place')}" th:errors="*{place}"></span>
+                            </p>
+                        </div>
+                        <div class="form-group">
+                            Ticket price:
+                            <input type="text" th:field="*{ticketPrice}">
+                            <span th:if="${#fields.hasErrors('ticketPrice')}" th:errors="*{ticketPrice}"></span>
+                        </div>
+                        <div class="form-group">
+                            Capacity:
+                            <input type="text" th:field="*{capacity}">
+                            <span th:if="${#fields.hasErrors('capacity')}" th:errors="*{capacity}"></span>
+                        </div>
+                        <div class="form-group">
+                            Photo:
+                            <input type="file" th:field="*{image}" accept="image/*">
+                        </div>
+                        <div class="form-group">
+                            Organisation:
+                            <p th:each="organisation : ${organisations}">
+                                <input type="radio" th:value="${organisation.id}" th:text="${organisation.organisationName}" th:field="*{organisation}">
+                                <span th:if="${#fields.hasErrors('organisation')}" th:errors="*{organisation}"></span>
+                            </p>
+                        </div>
+
+                        <div class="form-group">
+                            Event type:
+                            <select name="eventType" >
+                                <option th:each="eventType : ${eventTypes}" th:value="${eventType.id}" th:text="${eventType.typeName}" th:field="*{eventType}"></option>
+                                <span th:if="${#fields.hasErrors('eventType')}" th:errors="*{eventType}"></span>
+                            </select>
+
+                            </p>
+                        </div>
+                        <div class="form-group">
+                            Status:
+                            <p th:each="eventStatus : ${allStatuses}">
+                                <input type="radio" th:value="${eventStatus.id}" th:text="${eventStatus.status}" th:field="*{eventStatus}">
+                                <span th:if="${#fields.hasErrors('eventStatus')}" th:errors="*{eventStatus}"></span>
+                            </p>
+                        </div>
+
+                        <div>
+                            <button type="submit" class="btn btn-primary btn-block" value="Submit">Add event</button>
+                            <button type="reset" class="btn btn-primary btn-block" value="Reset">Reset</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

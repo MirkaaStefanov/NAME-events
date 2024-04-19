@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/styles.css" rel="stylesheet">
+</head>
+<body>
+<header th:insert="~{header.html}"></header>
+
+<table class="table table-bordered border-warning">
+    <thead>
+    <tr>
+        <th class="p-3 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3" scope="col">
+            ID
+        </th>
+        <th class="p-3 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3" scope="col">
+            Type
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+    <tr th:each="eventType : ${allEventTypes}" >
+        <th class="p-3 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3" scope="row"
+            th:text="${eventType.id}"></th>
+        <th class="p-3 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3" scope="row"
+            th:text="${eventType.typeName}"></th>
+        <td>
+            <a  class="btn btn-primary" sec:authorize="hasAuthority('Admin')" th:href="@{'/event-type/update?id=' + ${eventType.id}}">Update</a>
+        </td>
+        <td>
+            <form action="#" sec:authorize="hasAuthority('Admin')" th:action="@{'/event-type/delete?id=' + ${eventType.id}}" method="post">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tr>
+
+    </tbody>
+</table>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
