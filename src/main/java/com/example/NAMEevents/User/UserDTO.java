@@ -1,11 +1,14 @@
 package com.example.NAMEevents.User;
 
+import com.example.NAMEevents.Skill.Skill;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import org.hibernate.validator.constraints.UniqueElements;
+
+import java.util.List;
 
 public class UserDTO {
 
@@ -29,6 +32,9 @@ public class UserDTO {
     @Size(min =6, max = 20, message = "Password should be between 6 and 20")
     private String confirmPassword;
 
+    private List<Skill> skillsPros;
+
+    private List<Skill> skillsCons;
 
     public String getUsername() {
         return username;
@@ -102,6 +108,19 @@ public class UserDTO {
         this.confirmPassword = confirmPassword;
     }
 
+    public List<Skill> getSkillsPros() {
+        return skillsPros;
+    }
 
+    public void setSkillsPros(List<Skill> skillsPros) {
+        this.skillsPros = skillsPros;
+    }
 
+    public List<Skill> getSkillsCons() {
+        return skillsCons;
+    }
+
+    public void setSkillsCons(List<Skill> skillsCons) {
+        this.skillsCons = skillsCons;
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.NAMEevents.User;
 
+import com.example.NAMEevents.Skill.SkillRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,15 +22,28 @@ public class UserController {
     UserService userService;
     @Autowired
     UserMapper userMapper;
+    @Autowired
+    private SkillRepository skillRepository;
 
     @GetMapping("/registration")
     public String addUser(Model model) {
         model.addAttribute("userDTO", new UserDTO());
         return "user/registration";
     }
-
+    @GetMapping("/registration/choose-pros")
+    public String choosePros(@ModelAttribute UserDTO userDTO, Model model){
+        model.addAttribute("userDto", userDTO);
+        model.addAttribute("allSkills",skillRepository.findAll());
+        return "user/registration-skills-pros";
+    }
+    @GetMapping("/registration/choose-cons")
+    public String chooseCons(@ModelAttribute UserDTO userDTO, Model model){
+        model.addAttribute("userDto", userDTO);
+        model.addAttribute("allSkills",skillRepository.findAll());
+        return "user/registration-skills-cons";
+    }
     @PostMapping("/registration/submit")
-    public String postRegister(@Valid @ModelAttribute UserDTO userDTO, BindingResult bindingResult, Model model) {
+    public String submitUser(@Valid @ModelAttribute UserDTO userDTO, BindingResult bindingResult, Model model){
         if (bindingResult.hasErrors()) {
             return "user/registration";
         }
@@ -48,9 +62,7 @@ public class UserController {
             model.addAttribute("passwordsDoNotMatch", "Passwords do not match!");
             return "user/registration";
         }
-
         User user = userMapper.toEntity(userDTO);
-        model.addAttribute("user", user);
         userRepository.save(user);
         return "redirect:/login";
     }

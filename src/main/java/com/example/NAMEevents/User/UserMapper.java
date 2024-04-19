@@ -19,6 +19,8 @@ public class UserMapper {
         user.setJob(userDTO.getJob());
         user.setGraduationPlace(userDTO.getGraduationPlace());
         user.setUserDescription(userDTO.getUserDescription());
+        user.setSkillsPros(userDTO.getSkillsPros());
+        user.setSkillsCons(userDTO.getSkillsCons());
         return user;
     }
 }
