@@ -27,7 +27,7 @@ public class EventService {
         if (optionalEvent.isPresent()) {
             Event event = eventRepository.findById(id).get();
             model.addAttribute("updateEvent", event);
-            return "event-update-form";
+            return "event/event-update-form";
         } else {
             return "id could not be find";
         }
@@ -65,7 +65,6 @@ public class EventService {
 
     public String searchEvents(String name,
                                String place,
-                               Integer type,
                                String date,
                                Double minPrice,
                                Double maxPrice,
@@ -90,8 +89,8 @@ public class EventService {
             minPrice = maxPrice1;
         }
 
-       // model.addAttribute("allEvents", eventRepository.findByPlaceTypeDateAndPrice(name, place, type, date, minPrice, maxPrice));
-        return "all-events";
+       model.addAttribute("allEvents", eventRepository.findByPlaceTypeDateAndPrice(name, place, date, minPrice, maxPrice));
+        return "event/all-events";
     }
 
 

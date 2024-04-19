@@ -18,12 +18,17 @@ public class UserDTO {
     private String firstName;
     @NotEmpty(message = "Please enter last name!")
     private String lastName;
+    private String graduationPlace;
+    private String job;
+    @NotEmpty
+    private String userDescription;
     @NotEmpty(message = "Fill in the password!")
     @Size(min = 6, max = 20, message = "Password should be between 6 and 20")
     private String password;
     @NotEmpty(message = "Please confirm the password!")
     @Size(min =6, max = 20, message = "Password should be between 6 and 20")
     private String confirmPassword;
+
 
     public String getUsername() {
         return username;
@@ -55,6 +60,30 @@ public class UserDTO {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getGraduationPlace() {
+        return graduationPlace;
+    }
+
+    public void setGraduationPlace(String graduationPlace) {
+        this.graduationPlace = graduationPlace;
+    }
+
+    public String getJob() {
+        return job;
+    }
+
+    public void setJob(String job) {
+        this.job = job;
+    }
+
+    public String getUserDescription() {
+        return userDescription;
+    }
+
+    public void setUserDescription(String userDescription) {
+        this.userDescription = userDescription;
     }
 
     public String getPassword() {

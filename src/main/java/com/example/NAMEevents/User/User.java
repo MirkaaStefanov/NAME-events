@@ -38,6 +38,9 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<Skill> skillsCons;
 
+    private String graduationPlace;
+    private String job;
+    private String userDescription;
 
     public boolean isEnabled() {
         return enabled;
@@ -46,8 +49,6 @@ public class User {
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
-
-
 
     public List<Event> getEvents() {
         return events;
@@ -130,5 +131,29 @@ public class User {
 
     public void setSkillsCons(List<Skill> skillsCons) {
         this.skillsCons = skillsCons;
+    }
+
+    public String getGraduationPlace() {
+        return graduationPlace;
+    }
+
+    public void setGraduationPlace(String graduationPlace) {
+        this.graduationPlace = graduationPlace;
+    }
+
+    public String getJob() {
+        return job;
+    }
+
+    public void setJob(String job) {
+        this.job = job;
+    }
+
+    public String getUserDescription() {
+        return userDescription;
+    }
+
+    public void setUserDescription(String userDescription) {
+        this.userDescription = userDescription;
     }
 }

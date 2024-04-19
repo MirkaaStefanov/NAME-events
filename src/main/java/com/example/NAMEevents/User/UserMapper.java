@@ -16,6 +16,9 @@ public class UserMapper {
         user.setEmail(userDTO.getEmail());
         user.setPassword(webSecurityConfig.passwordEncoder().encode(userDTO.getPassword()));
         user.setRole("User");
+        user.setJob(userDTO.getJob());
+        user.setGraduationPlace(userDTO.getGraduationPlace());
+        user.setUserDescription(userDTO.getUserDescription());
         return user;
     }
 }

@@ -44,11 +44,11 @@ public class UserController {
             model.addAttribute("emailExistMessage", "This email already exists!");
             return "user/registration";
         }
-
         if (!userService.ifTwoPasswordsMatch(userDTO.getPassword(), userDTO.getConfirmPassword())) {
             model.addAttribute("passwordsDoNotMatch", "Passwords do not match!");
             return "user/registration";
         }
+
         User user = userMapper.toEntity(userDTO);
         model.addAttribute("user", user);
         userRepository.save(user);

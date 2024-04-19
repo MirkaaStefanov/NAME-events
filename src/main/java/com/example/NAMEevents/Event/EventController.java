@@ -33,17 +33,17 @@ public class EventController {
     @GetMapping("/add")
     public String addEvent(Model model) {
         model.addAttribute("eventDTO", new EventDTO());
-        return "event-form";
+        return "event/event-form";
     }
 
     @PostMapping("/submit")
     public String postEvent(@Valid @ModelAttribute EventDTO eventDTO, BindingResult bindingResult, Model model) throws ParseException {
         if (bindingResult.hasErrors()) {
-            return "event-form";
+            return "event/event-form";
         }
         if (eventService.errorEventStatus(eventDTO)) {
             model.addAttribute("notValidDate", "Please enter a valid date!");
-            return "event-form";
+            return "event/event-form";
         } else {
             Event event = eventMapper.toEntity(eventDTO);
             eventRepository.save(event);
@@ -56,16 +56,16 @@ public class EventController {
     public String allEvents(Model model) throws ParseException {
         Iterable<Event> allEvents = eventRepository.findAll();
         model.addAttribute("allEvents", allEvents);
-        return "all-events";
+        return "event/all-events";
     }
 
-    @GetMapping("/{eventId}")
-    public String getEventDetails(@PathVariable Integer eventId, Model model) {
+    @GetMapping("/show-event")
+    public String getEventDetails(@RequestParam(name = "eventId") Integer eventId, Model model) {
         Optional<Event> optionalEvent = eventRepository.findById(eventId);
         if (optionalEvent.isPresent()) {
             Event event = optionalEvent.get();
             model.addAttribute("event", event);
-            return "event-details";
+            return "event/event-details";
         } else {
             return "id could not be find";
         }
@@ -74,12 +74,11 @@ public class EventController {
     @GetMapping("/search")
     public String searchEvents(@RequestParam(name = "name", required = false) String name,
                                @RequestParam(name = "place", required = false) String place,
-                               @RequestParam(name = "type", required = false) Integer type,
                                @RequestParam(name = "date", required = false) String date,
                                @RequestParam(name = "minPrice", required = false) Double minPrice,
                                @RequestParam(name = "maxPrice", required = false) Double maxPrice,
                                Model model) {
-        return eventService.searchEvents(name, place, type, date, minPrice, maxPrice, model);
+        return eventService.searchEvents(name, place, date, minPrice, maxPrice, model);
     }
 
     @GetMapping("/update")
@@ -109,7 +108,7 @@ public class EventController {
             if (listEvent.equals(event)) {
                 model.addAttribute("alreadyApplied", "You have already applied for this event!");
                 model.addAttribute("event", event);
-                return "event-details";
+                return "event/event-details";
             }
         }
         event.getUsers().add(user);
@@ -119,7 +118,7 @@ public class EventController {
 
         model.addAttribute("event", event);
         model.addAttribute("successfullyApplied", "You have successfully applied for the event!");
-        return "event-details";
+        return "event/event-details";
     }
 }
 
