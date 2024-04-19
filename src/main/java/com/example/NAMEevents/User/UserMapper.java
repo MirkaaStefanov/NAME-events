@@ -1,8 +1,6 @@
 package com.example.NAMEevents.User;
 
-import com.example.NAMEevents.Role.Role;
-import com.example.NAMEevents.Role.RoleRepository;
-import com.example.EventHub.WebSecurityConfig;
+import com.example.NAMEevents.WebSecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -10,8 +8,6 @@ import org.springframework.stereotype.Component;
 public class UserMapper {
     @Autowired
     WebSecurityConfig webSecurityConfig;
-    @Autowired
-    RoleRepository roleRepository;
     public User toEntity(UserDTO userDTO){
         User user = new User();
         user.setUsername(userDTO.getUsername());
@@ -19,7 +15,7 @@ public class UserMapper {
         user.setLastName(userDTO.getLastName());
         user.setEmail(userDTO.getEmail());
         user.setPassword(webSecurityConfig.passwordEncoder().encode(userDTO.getPassword()));
-        user.setRole(roleRepository.findById(3).orElse(null));
+        user.setRole("User");
         return user;
     }
 }

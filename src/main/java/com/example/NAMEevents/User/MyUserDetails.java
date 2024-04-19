@@ -16,7 +16,7 @@ public class MyUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(user.getRole().getRoleName());
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(user.getRole());
         return Arrays.asList(authority);
     }
 
@@ -33,7 +33,7 @@ public class MyUserDetails implements UserDetails {
     public String getFirstName() {return user.getFirstName();}
 
     public String getLastName() {return user.getLastName();}
-    public String getRole(){return user.getRole().getRoleName();}
+    public String getRole(){return user.getRole();}
     public String getEmail(){return  user.getEmail();}
 
     @Override

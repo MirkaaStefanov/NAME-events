@@ -1,7 +1,7 @@
 package com.example.NAMEevents.User;
 
 import com.example.NAMEevents.Event.Event;
-import com.example.NAMEevents.Role.Role;
+import com.example.NAMEevents.Skill.Skill;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -24,29 +24,20 @@ public class User {
     private String lastName;
 
     private String password;
-    @ManyToOne
-    @JoinColumn(name = "role_id")
-    private Role role;
+    private String role;
     @ManyToMany(mappedBy = "users")
     private List<Event> events;
-    private List<String> skills;
-    private List<String> inability;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "event_user_pros",
+            joinColumns = @JoinColumn(name = "event_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private List<Skill> skillsPros;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "event_user_cons",
+            joinColumns = @JoinColumn(name = "event_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private List<Skill> skillsCons;
 
-    public List<String> getSkills() {
-        return skills;
-    }
-
-    public void setSkills(List<String> skills) {
-        this.skills = skills;
-    }
-
-    public List<String> getInability() {
-        return inability;
-    }
-
-    public void setInability(List<String> inability) {
-        this.inability = inability;
-    }
 
     public boolean isEnabled() {
         return enabled;
@@ -117,11 +108,27 @@ public class User {
         this.password = password;
     }
 
-    public Role getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public void setRole(String role) {
         this.role = role;
+    }
+
+    public List<Skill> getSkillsPros() {
+        return skillsPros;
+    }
+
+    public void setSkillsPros(List<Skill> skillsPros) {
+        this.skillsPros = skillsPros;
+    }
+
+    public List<Skill> getSkillsCons() {
+        return skillsCons;
+    }
+
+    public void setSkillsCons(List<Skill> skillsCons) {
+        this.skillsCons = skillsCons;
     }
 }

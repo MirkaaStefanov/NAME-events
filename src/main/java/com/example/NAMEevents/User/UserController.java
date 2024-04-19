@@ -1,6 +1,5 @@
 package com.example.NAMEevents.User;
 
-import com.example.NAMEevents.Role.RoleRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +18,6 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
     @Autowired
-    RoleRepository roleRepository;
-    @Autowired
     UserService userService;
     @Autowired
     UserMapper userMapper;
@@ -28,38 +25,33 @@ public class UserController {
     @GetMapping("/registration")
     public String addUser(Model model) {
         model.addAttribute("userDTO", new UserDTO());
-        model.addAttribute("roles", roleRepository.findAll());
-        return "registration";
+        return "user/registration";
     }
 
     @PostMapping("/registration/submit")
     public String postRegister(@Valid @ModelAttribute UserDTO userDTO, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("roles", roleRepository.findAll());
-            return "registration";
+            return "user/registration";
         }
         User userForSeeIfUsernameExist = userRepository.getUserByUsername(userDTO.getUsername());
         if (userForSeeIfUsernameExist != null) {
             model.addAttribute("userExistMessage", "This username already exists!");
-            model.addAttribute("roles", roleRepository.findAll());
-            return "registration";
+            return "user/registration";
         }
 
         User userForSeeIfEmailExist = userRepository.getUserByEmail(userDTO.getEmail());
         if (userForSeeIfEmailExist != null) {
             model.addAttribute("emailExistMessage", "This email already exists!");
-            model.addAttribute("roles", roleRepository.findAll());
-            return "registration";
+            return "user/registration";
         }
 
         if (!userService.ifTwoPasswordsMatch(userDTO.getPassword(), userDTO.getConfirmPassword())) {
             model.addAttribute("passwordsDoNotMatch", "Passwords do not match!");
-            model.addAttribute("roles", roleRepository.findAll());
-            return "registration";
+            return "user/registration";
         }
         User user = userMapper.toEntity(userDTO);
         model.addAttribute("user", user);
         userRepository.save(user);
-        return "login";
+        return "redirect:/login";
     }
 }

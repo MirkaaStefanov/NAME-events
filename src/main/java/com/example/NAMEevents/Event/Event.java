@@ -23,8 +23,8 @@ public class Event {
     private String description;
     private String place;
     private String time;
-    private double ticketPrice;
     private int capacity;
+    private double ticketPrice;
 
     @Lob
     @Column(columnDefinition = "MEDIUMBLOB")
@@ -95,13 +95,6 @@ public class Event {
         this.time = time;
     }
 
-    public double getTicketPrice() {
-        return ticketPrice;
-    }
-
-    public void setTicketPrice(double ticketPrice) {
-        this.ticketPrice = ticketPrice;
-    }
 
     public int getCapacity() {
         return capacity;
@@ -109,6 +102,14 @@ public class Event {
 
     public void setCapacity(int capacity) {
         this.capacity = capacity;
+    }
+
+    public double getTicketPrice() {
+        return ticketPrice;
+    }
+
+    public void setTicketPrice(double ticketPrice) {
+        this.ticketPrice = ticketPrice;
     }
 
     public String getImage() {

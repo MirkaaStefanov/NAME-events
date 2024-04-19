@@ -48,7 +48,7 @@ public class EventController {
             Event event = eventMapper.toEntity(eventDTO);
             eventRepository.save(event);
             model.addAttribute("event", event);
-            return "home";
+            return "redirect:/";
         }
     }
 

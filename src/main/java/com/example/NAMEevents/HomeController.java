@@ -1,6 +1,5 @@
 package com.example.NAMEevents;
 
-import com.example.NAMEevents.Role.RoleRepository;
 import com.example.NAMEevents.User.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,17 +19,15 @@ public class HomeController {
     UserRepository userRepository;
     @Autowired
     UserService userService;
-    @Autowired
-    RoleRepository roleRepository;
-    @RequestMapping("/home")
+    @GetMapping("/")
     public String home() {
-        return "home";
+        return "index";
     }
-    @RequestMapping("/login")
+    @GetMapping("/login")
     public String login() {
-        return "login";
+        return "user/login";
     }
-    @RequestMapping("/profile")
-    public String profile(){return "profile";}
+    @GetMapping("/profile")
+    public String profile(){return "user/profile";}
 
 }

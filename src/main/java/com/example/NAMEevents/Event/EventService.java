@@ -51,7 +51,6 @@ public class EventService {
         event.setDuration(updatedEvent.getDuration());
         event.setDescription(updatedEvent.getDescription());
         event.setPlace(updatedEvent.getPlace());
-        event.setTicketPrice(updatedEvent.getTicketPrice());
         event.setCapacity(updatedEvent.getCapacity());
         event.setEventStatus(updatedEvent.getEventStatus());
         return event;
