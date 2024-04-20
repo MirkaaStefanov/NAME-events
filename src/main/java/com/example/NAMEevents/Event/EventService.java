@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -97,7 +98,7 @@ public class EventService {
             minPrice = maxPrice1;
         }
 
-       model.addAttribute("allEvents", eventRepository.findByPlaceTypeDateAndPrice(name, place, date, minPrice, maxPrice));
+        model.addAttribute("allEvents", eventRepository.findByPlaceTypeDateAndPrice(name, place, date, minPrice, maxPrice));
         return "event/all-events";
     }
 
@@ -115,18 +116,29 @@ public class EventService {
         }
         return false;
     }
-    public String findSuggestedUsers(Event event){
+
+    public List<User> findSuggestedUsers(Event event,Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         User user = userRepository.getUserByUsername(username);
+        List<Skill> skillConsList = user.getSkillsCons();
+
         List<User> usersInEvent = event.getUsers();
-        List<Skill>skillConsList=user.getSkillsCons();
+
         List<User> usersWithPros = new ArrayList<>();
 
-        for (User oneUser:userRepository.findAll()) {
-            if(usersInEvent.contains(oneUser)){
-
+        for (User oneUser : userRepository.findAll()) {
+            if (usersInEvent.contains(oneUser)) {
+                List<Skill> oneUserSkills = oneUser.getSkillsPros();
+                for (Skill authenticatedUserCon:skillConsList) {
+                    if(oneUserSkills.contains(authenticatedUserCon)){
+                        usersWithPros.add(oneUser);
+                    }
+                }
             }
         }
+
+        return usersWithPros;
+
     }
 }

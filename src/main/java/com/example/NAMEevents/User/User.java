@@ -28,14 +28,14 @@ public class User {
     @ManyToMany(mappedBy = "users")
     private List<Event> events;
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "event_user_pros",
-            joinColumns = @JoinColumn(name = "event_id"),
+    @JoinTable(name = "skill_user_pros",
+            joinColumns = @JoinColumn(name = "skill_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<Skill> skillsPros;
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "event_user_cons",
-            joinColumns = @JoinColumn(name = "event_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    @JoinTable(name = "skill_user_cons",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "skill_id"))
     private List<Skill> skillsCons;
 
     private String graduationPlace;
