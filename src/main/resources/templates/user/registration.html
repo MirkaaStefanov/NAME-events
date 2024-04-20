@@ -112,9 +112,9 @@
               <label for="username" class="form-label">Username:</label>
               <input type="text" name="username" class="form-control" id="username"
                      placeholder="Enter username or email">
-              <div class="error-container" th:if="${#fields.hasErrors('username')}">
-                <span class="error-message" th:errors="*{username}"></span>
-              </div>
+
+                <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
+
             </h3>
 
             <h3 class="mb-4">
@@ -123,6 +123,9 @@
                      placeholder="Enter your first name">
               <div class="error-container" th:if="${#fields.hasErrors('firstName')}">
                 <span class="error-message" th:errors="*{firstName}"></span>
+              </div>
+              <div class="error-container" th:if="${userExistMessage}">
+                <span class="error-message" th:text="${userExistMessage}"></span>
               </div>
             </h3>
 
@@ -141,6 +144,9 @@
                      placeholder="Enter your email address">
               <div class="error-container" th:if="${#fields.hasErrors('email')}">
                 <span class="error-message" th:errors="*{email}"></span>
+              </div>
+              <div class="error-container" th:if="${emailExistMessage}">
+                <span class="error-message" th:text="${emailExistMessage}"></span>
               </div>
             </h3>
 

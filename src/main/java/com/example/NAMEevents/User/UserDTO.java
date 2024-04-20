@@ -12,8 +12,8 @@ import java.util.List;
 
 public class UserDTO {
 
-    @NotEmpty(message = "Username cannot be empty!")
-    @Size(min = 4, max = 20, message = "Username should be between 4 and 20")
+    @NotEmpty()
+    @Size(min = 4, max = 20)
     private String username;
     @NotEmpty(message = "Please enter email!")
     private String email;
