@@ -16,6 +16,7 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,8 +30,9 @@ public class EventService {
     @Autowired
     UserRepository userRepository;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "\"yyyy-MM-dd'T'HH:mm:ss'Z'\"")
     LocalDate localDate = LocalDate.now();
+
 
     public String updateForm(Integer id, Model model) {
         Optional<Event> optionalEvent = eventRepository.findById(id);
@@ -132,8 +134,8 @@ public class EventService {
         for (User oneUser : userRepository.findAll()) {
             if (usersInEvent.contains(oneUser)) {
                 List<Skill> oneUserSkills = oneUser.getSkillsPros();
-                for (Skill authenticatedUserCon:skillConsList) {
-                    if(oneUserSkills.contains(authenticatedUserCon)){
+                for (Skill authenticatedUserCon : skillConsList) {
+                    if (oneUserSkills.contains(authenticatedUserCon)) {
                         usersWithPros.add(oneUser);
                     }
                 }
@@ -141,4 +143,42 @@ public class EventService {
         }
         return usersWithPros;
     }
+
+    public String markPresent(Integer id, Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userRepository.getUserByUsername(username);
+        Event event = eventRepository.findById(id).orElse(null);
+
+        if (event == null) {
+            return "redirect:/error";
+        }
+
+        if (user.getEventsGoing().contains(event)) {
+            model.addAttribute("alreadyMarkedPresence", "You have already marked your presence for this event!");
+        } else if (!user.getEvents().contains(event)) {
+            model.addAttribute("notGoing", "You have not applied for this event!");
+        } else {
+            try {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+                Date eventDate = dateFormat.parse(event.getDate());
+                Date currentDate = new Date();
+
+                if (eventDate.after(currentDate)) {
+                    model.addAttribute("dateInFuture", "You cannot mark your presence for a future event!");
+                } else {
+                    event.getUsersPresent().add(user);
+                    user.getEventsGoing().add(event);
+                    userRepository.save(user);
+                    eventRepository.save(event);
+                }
+            } catch (ParseException ex) {
+                System.out.println("Parsing error: " + ex.getMessage());
+            }
+        }
+
+        model.addAttribute("event", event);
+        return "event/event-details";
+    }
+
 }

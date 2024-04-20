@@ -38,6 +38,12 @@ public class Event {
     joinColumns = @JoinColumn(name = "event_id"),
     inverseJoinColumns = @JoinColumn(name = "user_id"))
     List<User>users;
+    @ManyToMany
+    @JoinTable(
+            name = "events_users_present",
+            joinColumns = @JoinColumn(name = "event_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    List<User>usersPresent;
 
     public Integer getId() {
         return id;
@@ -151,5 +157,13 @@ public class Event {
 
     public void setUsers(List<User> users) {
         this.users = users;
+    }
+
+    public List<User> getUsersPresent() {
+        return usersPresent;
+    }
+
+    public void setUsersPresent(List<User> usersPresent) {
+        this.usersPresent = usersPresent;
     }
 }

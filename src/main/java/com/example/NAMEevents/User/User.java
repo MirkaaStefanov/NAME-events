@@ -28,6 +28,8 @@ public class User {
     private String role;
     @ManyToMany(mappedBy = "users")
     private List<Event> events;
+    @ManyToMany(mappedBy = "usersPresent")
+    private List<Event> eventsGoing;
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "skill_user_pros",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -184,4 +186,13 @@ public class User {
     }
 
 
+
+
+    public List<Event> getEventsGoing() {
+        return eventsGoing;
+    }
+
+    public void setEventsGoing(List<Event> eventsGoing) {
+        this.eventsGoing = eventsGoing;
+    }
 }
