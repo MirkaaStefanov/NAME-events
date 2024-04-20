@@ -2,6 +2,7 @@ package com.example.NAMEevents.User;
 
 import com.example.NAMEevents.Event.Event;
 import com.example.NAMEevents.Event.EventRepository;
+import com.example.NAMEevents.Message.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -55,6 +56,17 @@ public class UserService {
         model.addAttribute("event", event);
         model.addAttribute("successfullySent", "You have successfully sent a friend request to this user!");
         return "event/event-details";
+    }
+    public String answerRequest(@RequestParam(name = "receiverId") Long id){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User sender = userRepository.getUserByUsername(username);
+        User receiver = userRepository.findById(id).get();
+
+        message.setSender(sender);
+        message.setReceiver(receiver);
+
+        return "redirect:/message/show?receiverId=" + id;
     }
 
 
