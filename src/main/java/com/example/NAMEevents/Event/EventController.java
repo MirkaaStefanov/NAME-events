@@ -3,6 +3,7 @@ package com.example.NAMEevents.Event;
 
 import com.example.NAMEevents.User.User;
 import com.example.NAMEevents.User.UserRepository;
+import com.example.NAMEevents.User.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -29,6 +30,8 @@ public class EventController {
     EventMapper eventMapper;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    UserService userService;
 
     @GetMapping("/add")
     public String addEvent(Model model) {
@@ -64,7 +67,7 @@ public class EventController {
         Optional<Event> optionalEvent = eventRepository.findById(eventId);
         if (optionalEvent.isPresent()) {
             Event event = optionalEvent.get();
-            List<User> usersWithPros = eventService.findSuggestedUsers(event);
+            List<User> usersWithPros = eventService.findSuggestedUsers(eventId);
             model.addAttribute("event", event);
             model.addAttribute("usersWithPros", usersWithPros);
             return "event/event-details";
@@ -122,13 +125,6 @@ public class EventController {
         model.addAttribute("successfullyApplied", "You have successfully applied for the event!");
         return "event/event-details";
     }
-    @PostMapping("/send-friend-request")
-    public String sendFriendRequest(@RequestParam(name = "eventId") Integer eventId, @RequestParam(name = "userId") Long userID, Model model){
-        return eventService.sendFriendRequest(eventId, userID, model);
-    }
-    @PostMapping("/suggested-users")
-    public List<User>showSuggestedUsers(@RequestParam(name = "eventId") Integer eventId){
-        return eventService.findSuggestedUsers(eventId);
-    }
+
 }
 

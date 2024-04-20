@@ -45,6 +45,11 @@ public class User {
             joinColumns = @JoinColumn(name = "userSender_id"),
             inverseJoinColumns = @JoinColumn(name = "userReceiver_id"))
     private List<User>friendRequests;
+    @ManyToMany
+    @JoinTable(name = "user_friend",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "friend_id"))
+    private List<User>friends;
 
     public boolean isEnabled() {
         return enabled;
@@ -167,5 +172,13 @@ public class User {
 
     public void setFriendRequests(List<User> friendRequests) {
         this.friendRequests = friendRequests;
+    }
+
+    public List<User> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(List<User> friends) {
+        this.friends = friends;
     }
 }
