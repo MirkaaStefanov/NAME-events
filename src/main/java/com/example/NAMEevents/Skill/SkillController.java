@@ -20,23 +20,23 @@ public class SkillController {
     @GetMapping("/add")
     public String addSkill(Model model) {
         model.addAttribute("skill", new Skill());
-        return "skill-form";
+        return "skill/skill-form";
     }
     @GetMapping("/all")
     public String allSkills(Model model) {
         Iterable<Skill> allSkills = skillRepository.findAll();
         model.addAttribute("allSkills", allSkills);
-        return "all-skills";
+        return "skill/all-skills";
     }
     @PostMapping("/submit")
     public String postSkill(@Valid @ModelAttribute Skill skill, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("allSkills",skillRepository.findAll());
-            return "skill-form";
+            return "skill/skill-form";
         } else {
             skillRepository.save(skill);
             model.addAttribute("skill", skill);
-            return "skill-result";
+            return "skill/all-skills";
         }
     }
 }

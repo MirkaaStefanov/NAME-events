@@ -3,6 +3,8 @@ package com.example.NAMEevents.User;
 import com.example.NAMEevents.Event.Event;
 import com.example.NAMEevents.Event.EventRepository;
 import com.example.NAMEevents.Message.Message;
+import com.example.NAMEevents.Skill.Skill;
+import com.example.NAMEevents.Skill.SkillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,9 +24,13 @@ public class UserService {
     UserRepository userRepository;
     @Autowired
     EventRepository eventRepository;
-    public boolean ifTwoPasswordsMatch(String pass1, String pass2){
+    @Autowired
+    SkillRepository skillRepository;
+
+    public boolean ifTwoPasswordsMatch(String pass1, String pass2) {
         return pass1.equals(pass2);
     }
+
     public String sendFriendRequest(@RequestParam(name = "eventId") Integer eventId,
                                     @RequestParam(name = "userId") Long userId,
                                     Model model) {
@@ -58,18 +64,20 @@ public class UserService {
         model.addAttribute("successfullySent", "You have successfully sent a friend request to this user!");
         return "event/event-details";
     }
-    public String showAllRequests(Model model){
+
+    public String showAllRequests(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         User user = userRepository.getUserByUsername(username);
         model.addAttribute("requests", user.getFriendRequests());
         return "/user/show-requests";
     }
-    public String acceptRequest(Long id){
+
+    public String acceptRequest(Long id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         User user = userRepository.getUserByUsername(username);
-        User friend=userRepository.findById(id).get();
+        User friend = userRepository.findById(id).get();
         user.getFriends().add(friend);
         friend.getFriends().add(user);
         user.getFriendRequests().remove(friend);
@@ -78,6 +86,7 @@ public class UserService {
 
         return "redirect:/all-friend-requests";
     }
+
     public String deleteRequest(Long id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
@@ -87,7 +96,8 @@ public class UserService {
         userRepository.save(user);
         return "redirect:/all-friend-requests";
     }
-    public String showAllFriends(Model model){
+
+    public String showAllFriends(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         User user = userRepository.getUserByUsername(username);
@@ -95,4 +105,16 @@ public class UserService {
         return "user/all-friends";
     }
 
+    public List<Skill> makingNewListWithoutChosenOnes(UserDTO userDTO) {
+        List<Skill> allSkills = (List<Skill>) skillRepository.findAll();
+        ArrayList<Skill> chosenPros = (ArrayList<Skill>) userDTO.getSkillsPros();
+        List<Skill> newList=(List<Skill>) skillRepository.findAll();
+        for (Skill skill : allSkills)
+            for (int i = 0; i < allSkills.size(); i++) {
+                if (skill.getSkillName().equals(chosenPros.get(i))) {
+                    newList.remove(i);
+                }
+            }
+        return  newList;
+    }
 }

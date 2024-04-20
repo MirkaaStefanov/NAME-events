@@ -1,45 +1,71 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Message</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Interface</title>
     <style>
-        /* Стилове за чат кутията */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+
         .chat-box {
             border: 1px solid #ccc;
-            border-radius: 5px;
-            width: 300px;
-            height: 400px;
-            overflow-y: auto;
-            margin-bottom: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 500px;
+            margin: 20px auto;
             padding: 10px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+            height: 400px;
         }
+
         .message {
-            background-color: #f2f2f2;
-            border-radius: 5px;
-            padding: 5px 10px;
-            margin-bottom: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 20px;
+            max-width: 70%;
+            word-wrap: break-word;
         }
+
         .message.sender {
-            background-color: #d9f9d9;
+            background-color: #b2f7b2;
             align-self: flex-end;
+            color: #333;
         }
+
         .message.receiver {
             background-color: #f2f2f2;
             align-self: flex-start;
+            color: #333;
         }
-        /* Стилове за входното поле и бутона */
+
+        .message-info {
+            font-size: 0.8rem;
+            color: #999;
+            margin-top: 5px;
+        }
+
         .input-container {
             display: flex;
             align-items: center;
+            margin-top: 20px;
         }
+
         .input-container input[type="text"] {
             flex-grow: 1;
             margin-right: 10px;
             border-radius: 5px;
-            padding: 5px;
+            padding: 10px;
             border: 1px solid #ccc;
+            font-size: 1rem;
         }
+
         .input-container button {
             border: none;
             background-color: #4CAF50;
@@ -47,47 +73,62 @@
             padding: 10px 20px;
             border-radius: 5px;
             cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
         }
+
         .input-container button:hover {
             background-color: #45a049;
         }
     </style>
 </head>
 <body>
-
 <header th:insert="~{header.html}"></header>
-
 <div class="chat-box" id="chat-box">
-    <!-- Интегриране на съществуващите съобщения -->
-    <div th:each="message : ${messages}" th:text="${message.message}" class="message receiver"></div>
+
+    <div class="message receiver">
+        <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sit amet risus id ligula fermentum
+            tristique.
+        </div>
+        <div class="message-info">12:30 PM</div>
+    </div>
+    <div class="message sender">
+        <div>Vestibulum nec velit quis eros tempor tristique. Vivamus consequat justo et lectus tristique, nec
+            vehicula est feugiat.
+        </div>
+        <div class="message-info">12:32 PM</div>
+    </div>
 </div>
 
 <div class="input-container">
-    <!-- Интегриране на формата за изпращане на съобщение -->
-    <form action="#" th:action="@{/message/send}" method="post">
-        <div>
-            <input type="text" name="text" id="message-input">
-        </div>
-        <input type="hidden" name="receiverId" th:value="${receiver.id}">
-
-        <button type="submit" >Send</button>
-    </form>
+    <input type="text" name="text" id="message-input" placeholder="Type your message...">
+    <button type="button" onclick="sendMessage()">Send</button>
 </div>
 
 <script>
-
     function sendMessage() {
         var messageInput = document.getElementById("message-input");
-        var messageText = messageInput.value;
-        if (messageText.trim() !== "") {
+        var messageText = messageInput.value.trim();
+        if (messageText !== "") {
             var chatBox = document.getElementById("chat-box");
             var newMessage = document.createElement("div");
             newMessage.textContent = messageText;
             newMessage.className = "message sender";
+            var messageInfo = document.createElement("div");
+            messageInfo.textContent = getCurrentTime();
+            messageInfo.className = "message-info";
+            newMessage.appendChild(messageInfo);
             chatBox.appendChild(newMessage);
             messageInput.value = "";
             chatBox.scrollTop = chatBox.scrollHeight;
         }
+    }
+
+    function getCurrentTime() {
+        var now = new Date();
+        var hours = now.getHours().toString().padStart(2, '0');
+        var minutes = now.getMinutes().toString().padStart(2, '0');
+        return hours + ':' + minutes;
     }
 </script>
 

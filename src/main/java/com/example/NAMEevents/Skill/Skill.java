@@ -8,23 +8,23 @@ public class Skill {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
-    private Integer id;
+    private Long id;
     @NotEmpty
-    private String skill;
+    private String skillName;
 
-    public String getSkill() {
-        return skill;
+    public String getSkillName() {
+        return skillName;
     }
 
-    public void setSkill(String skill) {
-        this.skill = skill;
+    public void setSkillName(String skillName) {
+        this.skillName = skillName;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 }
