@@ -1,48 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat Interface</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f7f7f7;
-            margin: 0;
-            padding: 0;
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
+
 
         .chat-box {
             border: 1px solid #ccc;
-            border-radius: 10px;
-            width: 80%;
-            max-width: 500px;
-            margin: 20px auto;
+            border-radius: 5px;
+            width: 500px;
             padding: 10px;
             background-color: #fff;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             overflow-y: auto;
-            height: 400px;
+            height: 500px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
-        .message {
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 20px;
-            max-width: 70%;
-            word-wrap: break-word;
-        }
+       .message {
+    background-color: #f2f2f2;
+    border-radius: 5px;
+    padding: 5px 10px;
+    margin-bottom: 5px;
+}
 
-        .message.sender {
-            background-color: #b2f7b2;
-            align-self: flex-end;
-            color: #333;
-        }
+.message.receiver {
+background-color: #f2f2f2;
+align-self: flex-center;
+}
 
-        .message.receiver {
-            background-color: #f2f2f2;
-            align-self: flex-start;
-            color: #333;
+        .container{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
 
         .message-info {
@@ -53,17 +55,31 @@
 
         .input-container {
             display: flex;
+            flex-direction: column;
             align-items: center;
             margin-top: 20px;
+        }
+
+        .input-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            background-color: #fff;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
         }
 
         .input-container input[type="text"] {
             flex-grow: 1;
             margin-right: 10px;
-            border-radius: 5px;
-            padding: 10px;
-            border: 1px solid #ccc;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
             font-size: 1rem;
+            background-color: #f2f2f2;
         }
 
         .input-container button {
@@ -71,7 +87,7 @@
             background-color: #4CAF50;
             color: white;
             padding: 10px 20px;
-            border-radius: 5px;
+            border-radius: 20px;
             cursor: pointer;
             font-size: 1rem;
             transition: background-color 0.3s ease;
@@ -84,53 +100,19 @@
 </head>
 <body>
 <header th:insert="~{header.html}"></header>
-<div class="chat-box" id="chat-box">
-
-    <div class="message receiver">
-        <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sit amet risus id ligula fermentum
-            tristique.
+<div class="container">
+    <div class="chat-container">
+        <div class="chat-box" id="chat-box">
+            <h2 th:each="message : ${messages}" th:text="${message.message}" class="message receiver" ></h2>
+            <div class="input-container">
+                <form action="#" th:action="@{/message/send}" method="post">
+                    <input type="text" name="text" id="message-input" placeholder="Type a message...">
+                    <input type="hidden" name="receiverId" th:value="${receiver.id}">
+                    <button type="submit">Send</button>
+                </form>
+            </div>
         </div>
-        <div class="message-info">12:30 PM</div>
-    </div>
-    <div class="message sender">
-        <div>Vestibulum nec velit quis eros tempor tristique. Vivamus consequat justo et lectus tristique, nec
-            vehicula est feugiat.
-        </div>
-        <div class="message-info">12:32 PM</div>
     </div>
 </div>
-
-<div class="input-container">
-    <input type="text" name="text" id="message-input" placeholder="Type your message...">
-    <button type="button" onclick="sendMessage()">Send</button>
-</div>
-
-<script>
-    function sendMessage() {
-        var messageInput = document.getElementById("message-input");
-        var messageText = messageInput.value.trim();
-        if (messageText !== "") {
-            var chatBox = document.getElementById("chat-box");
-            var newMessage = document.createElement("div");
-            newMessage.textContent = messageText;
-            newMessage.className = "message sender";
-            var messageInfo = document.createElement("div");
-            messageInfo.textContent = getCurrentTime();
-            messageInfo.className = "message-info";
-            newMessage.appendChild(messageInfo);
-            chatBox.appendChild(newMessage);
-            messageInput.value = "";
-            chatBox.scrollTop = chatBox.scrollHeight;
-        }
-    }
-
-    function getCurrentTime() {
-        var now = new Date();
-        var hours = now.getHours().toString().padStart(2, '0');
-        var minutes = now.getMinutes().toString().padStart(2, '0');
-        return hours + ':' + minutes;
-    }
-</script>
-
 </body>
 </html>

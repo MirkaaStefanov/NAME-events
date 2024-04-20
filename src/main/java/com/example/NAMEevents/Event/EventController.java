@@ -55,12 +55,6 @@ public class EventController {
         }
     }
 
-    @GetMapping("/all")
-    public String allEvents(Model model) throws ParseException {
-        Iterable<Event> allEvents = eventRepository.findAll();
-        model.addAttribute("allEvents", allEvents);
-        return "event/all-events";
-    }
 
     @GetMapping("/show-event")
     public String getEventDetails(@RequestParam(name = "eventId") Integer eventId, Model model) {

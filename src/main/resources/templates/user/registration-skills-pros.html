@@ -53,11 +53,12 @@
 
 <div class="container">
     <h2>Registration Form</h2>
-    <form action="#" th:action="@{/registration/choose-cons}" th:object="${userDto}" method="post">
+    <form action="#" th:action="@{/registration/choose-pros}" th:object="${userDto}" method="post">
         <div>
             Choose Pros:
             <div th:each="skill : ${allSkills}">
-                <input type="checkbox" th:field="*{skillsPros}" th:value="${skill.id}" th:text="${skill.skill}"/>
+                <input type="checkbox" th:field="*{skillsPros}" th:value="${skill.id}" th:text="${skill.skillName}"/>
+                <input type="hidden" name="id" th:value="${userId}">
             </div>
             <p class="fw-lighter">Chosen pros will help you to find people who need your advice!</p>
         </div>

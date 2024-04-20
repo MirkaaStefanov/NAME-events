@@ -24,7 +24,7 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
             http
                     .authorizeHttpRequests((requests) -> requests
-                            .requestMatchers("/registration/**","registration/submit", "/", "/event/all", "/event/{}", "/event/search","user/**","/login","user/login").permitAll()
+                            .requestMatchers("/registration/**","registration/submit", "/", "/event/all", "/event/{}", "/event/search","user/**").permitAll()
                             .requestMatchers("/event/add").hasAnyAuthority("Admin","Manager")
                             .requestMatchers("/event/apply", "/user/**").hasAuthority("User")
                             .requestMatchers("/event/**", "/organisation/**", "/event-type/**","/skill/add").hasAuthority("Admin")
@@ -32,7 +32,6 @@ public class WebSecurityConfig {
                     )
                 .formLogin((form) -> form
                         .loginPage("/login")
-                        .successForwardUrl("/")
                         .permitAll()
                 )
                 .logout((logout) -> logout.permitAll());

@@ -26,7 +26,7 @@ public class SkillController {
     public String allSkills(Model model) {
         Iterable<Skill> allSkills = skillRepository.findAll();
         model.addAttribute("allSkills", allSkills);
-        return "skill/all-skills";
+        return "/";
     }
     @PostMapping("/submit")
     public String postSkill(@Valid @ModelAttribute Skill skill, BindingResult bindingResult, Model model) {

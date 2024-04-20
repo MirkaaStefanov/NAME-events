@@ -107,17 +107,17 @@
           <h1 class="mb-0">User Registration</h1>
         </div>
         <h3 class="card-body">
-          <form action="#" th:action="@{/registration/choose-pros}" th:object="${userDto}" method="get">
-            <h3 class="mb-4"> <!-- Increased margin-bottom for spacing -->
+          <form action="#" th:action="@{/registration}" th:object="${userDto}" method="post">
+            <h3 class="mb-4">
               <label for="username" class="form-label">Username:</label>
-              <input type="text" th:field="*{username}" class="form-control" id="username"
+              <input type="text" name="username" class="form-control" id="username"
                      placeholder="Enter username or email">
               <div class="error-container" th:if="${#fields.hasErrors('username')}">
                 <span class="error-message" th:errors="*{username}"></span>
               </div>
             </h3>
 
-            <h3 class="mb-4"> <!-- Increased margin-bottom for spacing -->
+            <h3 class="mb-4">
               <label for="firstName" class="form-label">First Name:</label>
               <input type="text" th:field="*{firstName}" class="form-control" id="firstName"
                      placeholder="Enter your first name">
@@ -126,7 +126,7 @@
               </div>
             </h3>
 
-            <h3 class="mb-10"> <!-- Increased margin-bottom for spacing -->
+            <h3 class="mb-10">
               <label for="lastName" class="form-label">Last Name:</label>
               <input type="text" th:field="*{lastName}" class="form-control" id="lastName"
                      placeholder="Enter your last name">
@@ -135,7 +135,7 @@
               </div>
             </h3>
 
-            <h3 class="mb-4"> <!-- Increased margin-bottom for spacing -->
+            <h3 class="mb-4">
               <label for="email" class="form-label">Email:</label>
               <input type="email" th:field="*{email}" class="form-control" id="email"
                      placeholder="Enter your email address">
@@ -150,13 +150,13 @@
                      placeholder="Enter your graduation place">
             </h3>
 
-            <h3 class="mb-4"> <!-- Increased margin-bottom for spacing -->
+            <h3 class="mb-4">
               <label for="job" class="form-label">Occupation:</label>
               <input type="text" th:field="*{job}" class="form-control" id="job"
                      placeholder="Enter your occupation">
             </h3>
 
-            <h3 class="mb-4"> <!-- Increased margin-bottom for spacing -->
+            <h3 class="mb-4">
               <label for="userDescription" class="form-label">Description:</label>
               <input type="text" th:field="*{userDescription}" class="form-control" id="userDescription"
                      placeholder="Describe yourself">
@@ -165,25 +165,31 @@
               </div>
             </h3>
 
-            <h3 class="mb-4"> <!-- Increased margin-bottom for spacing -->
+            <h3 class="mb-4">
               <label for="password" class="form-label">Password:</label>
               <input type="password" th:field="*{password}" class="form-control" id="password"
                      placeholder="Enter your password">
               <div class="error-container" th:if="${#fields.hasErrors('password')}">
                 <span class="error-message" th:errors="*{password}"></span>
               </div>
+              <div class="error-container" th:if="${passwordsDoNotMatch}">
+                <span class="error-message" th:text="${passwordsDoNotMatch}"></span>
+              </div>
             </h3>
 
-            <h3 class="mb-4"> <!-- Increased margin-bottom for spacing -->
+            <h3 class="mb-4">
               <label for="confirmPassword" class="form-label">Confirm Password:</label>
               <input type="password" th:field="*{confirmPassword}" class="form-control" id="confirmPassword"
                      placeholder="Confirm your password">
               <div class="error-container" th:if="${#fields.hasErrors('confirmPassword')}">
                 <span class="error-message" th:errors="*{confirmPassword}"></span>
               </div>
+              <div class="error-container" th:if="${passwordsDoNotMatch}">
+                <span class="error-message" th:text="${passwordsDoNotMatch}"></span>
+              </div>
             </h3>
 
-            <div class="mb-4"> <!-- Increased margin-bottom for spacing -->
+            <div class="mb-4">
               <button type="submit" class="btn btn-primary btn-block">Register</button>
             </div>
           </form>

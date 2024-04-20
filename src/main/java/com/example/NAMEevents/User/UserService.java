@@ -105,16 +105,15 @@ public class UserService {
         return "user/all-friends";
     }
 
-    public List<Skill> makingNewListWithoutChosenOnes(UserDTO userDTO) {
+    public List<Skill> makingNewListWithoutChosenOnes(User user) {
         List<Skill> allSkills = (List<Skill>) skillRepository.findAll();
-        ArrayList<Skill> chosenPros = (ArrayList<Skill>) userDTO.getSkillsPros();
-        List<Skill> newList=(List<Skill>) skillRepository.findAll();
-        for (Skill skill : allSkills)
-            for (int i = 0; i < allSkills.size(); i++) {
-                if (skill.getSkillName().equals(chosenPros.get(i))) {
-                    newList.remove(i);
-                }
+        List<Skill> chosenPros = user.getSkillsPros();
+        List<Skill> newList = (List<Skill>) skillRepository.findAll();
+        for (Skill skill : allSkills) {
+            if (chosenPros.contains(skill)) {
+                newList.remove(skill);
             }
-        return  newList;
+        }
+        return newList;
     }
 }

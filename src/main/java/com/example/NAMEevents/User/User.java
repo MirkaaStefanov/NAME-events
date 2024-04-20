@@ -30,8 +30,8 @@ public class User {
     private List<Event> events;
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "skill_user_pros",
-            joinColumns = @JoinColumn(name = "skill_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "skill_id"))
     private List<Skill> skillsPros;
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "skill_user_cons",
@@ -51,9 +51,6 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "friend_id"))
     private List<User>friends;
-
-    @OneToMany
-    private List<Message> messages;
 
     public boolean isEnabled() {
         return enabled;
@@ -186,11 +183,5 @@ public class User {
         this.friends = friends;
     }
 
-    public List<Message> getMessages() {
-        return messages;
-    }
 
-    public void setMessages(List<Message> messages) {
-        this.messages = messages;
-    }
 }
