@@ -141,7 +141,4 @@ public class EventService {
         }
         return usersWithPros;
     }
-
-
-
 }

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Users Available for Chat</title>
-    <style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Users Available for Chat</title>
+  <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -57,23 +57,21 @@
 <header th:insert="~{header.html}"></header>
 
 <div class="container">
-    <h1>Users Available for Chat</h1>
-    <ul class="user-list" th:each="user : ${users}">
-        <li class="user-item">
-            <div class="user-avatar">
-                <img src="user_avatar.jpg" alt="User Avatar">
-            </div>
-            <div class="user-details">
-                <span class="user-name" th:text="${user.username}"></span>
-            </div>
-            <div class="user-action">
-                <form th:action="@{/message/show}" method="get">
-                    <input type="hidden" name="receiverId" th:value="${user.id}">
-                    <button type="submit" class="btn">Chat</button>
-                </form>
-            </div>
-        </li>
-    </ul>
+  <h1>Users Available for Chat</h1>
+  <ul class="user-list" th:each="user : ${allFriends}">
+    <li class="user-item">
+      <div class="user-details">
+        <span class="user-name" th:text="${user.username}"></span>
+      </div>
+      <div class="user-action">
+        <form th:action="@{/message/show}" method="get">
+          <input type="hidden" name="receiverId" th:value="${user.id}">
+          <button type="submit" class="btn">Start Chat</button>
+        </form>
+      </div>
+    </li>
+    <!-- Repeat the above li block for each user -->
+  </ul>
 </div>
 </body>
 </html>
