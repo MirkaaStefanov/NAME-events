@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -137,8 +138,42 @@ public class EventService {
                 }
             }
         }
-
         return usersWithPros;
-
     }
+
+    public String sendFriendRequest(@RequestParam(name = "eventId") Integer eventId,
+                                    @RequestParam(name = "userId") Long userId,
+                                    Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userRepository.getUserByUsername(username);
+        Event event = eventRepository.findById(eventId).orElse(null);
+
+        if (event == null) {
+            return "event/event-details";
+        }
+
+        User friend = userRepository.findById(userId).orElse(null);
+
+        if (friend == null) {
+            return "event/event-details";
+        }
+
+        List<User> userFriendRequests = user.getFriendRequests();
+        for (User friendRequest : userFriendRequests) {
+            if (friendRequest.getId().equals(userId)) {
+                model.addAttribute("alreadySent", "You have already sent a friend request to this user!");
+                model.addAttribute("event", event);
+                return "event/event-details";
+            }
+        }
+        user.getFriendRequests().add(friend);
+        userRepository.save(user);
+
+        model.addAttribute("suggestedUser", friend);
+        model.addAttribute("event", event);
+        model.addAttribute("successfullySent", "You have successfully sent a friend request to this user!");
+        return "event/event-details";
+    }
+
 }
