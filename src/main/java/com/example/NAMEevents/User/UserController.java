@@ -101,4 +101,8 @@ public class UserController {
     public String sendFriendRequest(@RequestParam(name = "eventId") Integer eventId, @RequestParam(name = "userId") Long userID, Model model){
         return userService.sendFriendRequest(eventId, userID, model);
     }
+    @PostMapping("/answer-friend-request")
+    public String answerFriendRequest(@RequestParam(name = "receiverId") Long userReceiver, Model model){
+        return userService.answerRequest(userReceiver, model);
+    }
 }
