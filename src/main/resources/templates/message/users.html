@@ -54,6 +54,8 @@
     </style>
 </head>
 <body>
+<header th:insert="~{header.html}"></header>
+
 <div class="container">
     <h1>Users Available for Chat</h1>
     <ul class="user-list" th:each="user : ${users}">
