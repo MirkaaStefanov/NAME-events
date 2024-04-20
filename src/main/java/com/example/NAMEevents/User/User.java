@@ -1,6 +1,7 @@
 package com.example.NAMEevents.User;
 
 import com.example.NAMEevents.Event.Event;
+import com.example.NAMEevents.Message.Message;
 import com.example.NAMEevents.Skill.Skill;
 import jakarta.persistence.*;
 
@@ -45,11 +46,9 @@ public class User {
             joinColumns = @JoinColumn(name = "userSender_id"),
             inverseJoinColumns = @JoinColumn(name = "userReceiver_id"))
     private List<User>friendRequests;
-    @ManyToMany
-    @JoinTable(name = "user_friend",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "friend_id"))
-    private List<User>friends;
+
+    @OneToMany
+    private List<Message> messages;
 
     public boolean isEnabled() {
         return enabled;
@@ -174,11 +173,11 @@ public class User {
         this.friendRequests = friendRequests;
     }
 
-    public List<User> getFriends() {
-        return friends;
+    public List<Message> getMessages() {
+        return messages;
     }
 
-    public void setFriends(List<User> friends) {
-        this.friends = friends;
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
     }
 }

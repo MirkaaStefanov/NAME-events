@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Message</title>
+    <style>
+        /* Стилове за чат кутията */
+        .chat-box {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 300px;
+            height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            padding: 10px;
+        }
+        .message {
+            background-color: #f2f2f2;
+            border-radius: 5px;
+            padding: 5px 10px;
+            margin-bottom: 5px;
+        }
+        .message.sender {
+            background-color: #d9f9d9;
+            align-self: flex-end;
+        }
+        .message.receiver {
+            background-color: #f2f2f2;
+            align-self: flex-start;
+        }
+        /* Стилове за входното поле и бутона */
+        .input-container {
+            display: flex;
+            align-items: center;
+        }
+        .input-container input[type="text"] {
+            flex-grow: 1;
+            margin-right: 10px;
+            border-radius: 5px;
+            padding: 5px;
+            border: 1px solid #ccc;
+        }
+        .input-container button {
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .input-container button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<div class="chat-box" id="chat-box">
+    <!-- Интегриране на съществуващите съобщения -->
+    <div th:each="message : ${messages}" th:text="${message.message}" class="message receiver"></div>
+</div>
+
+<div class="input-container">
+    <!-- Интегриране на формата за изпращане на съобщение -->
+    <form action="#" th:action="@{/message/send}" method="post">
+        <div>
+            <input type="text" name="text" id="message-input">
+        </div>
+        <input type="hidden" name="receiverId" th:value="${receiver.id}">
+
+        <button type="submit" >Send</button>
+    </form>
+</div>
+
+<script>
+
+    function sendMessage() {
+        var messageInput = document.getElementById("message-input");
+        var messageText = messageInput.value;
+        if (messageText.trim() !== "") {
+            var chatBox = document.getElementById("chat-box");
+            var newMessage = document.createElement("div");
+            newMessage.textContent = messageText;
+            newMessage.className = "message sender";
+            chatBox.appendChild(newMessage);
+            messageInput.value = "";
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    }
+</script>
+
+</body>
+</html>
