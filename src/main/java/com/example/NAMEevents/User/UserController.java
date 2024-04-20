@@ -27,7 +27,7 @@ public class UserController {
 
     @GetMapping("/registration")
     public String addUser(Model model) {
-        model.addAttribute("userDTO", new UserDTO());
+        model.addAttribute("userDto", new UserDTO());
         return "user/registration";
     }
     @GetMapping("/registration/choose-pros")
@@ -43,26 +43,27 @@ public class UserController {
         return "user/registration-skills-cons";
     }
     @PostMapping("/registration/submit")
-    public String submitUser(@Valid @ModelAttribute UserDTO userDTO, BindingResult bindingResult, Model model){
+    public String submitUser(@Valid @ModelAttribute UserDTO userDto, BindingResult bindingResult, Model model){
         if (bindingResult.hasErrors()) {
+            model.addAttribute("userDto", userDto);
             return "user/registration";
         }
-        User userForSeeIfUsernameExist = userRepository.getUserByUsername(userDTO.getUsername());
+        User userForSeeIfUsernameExist = userRepository.getUserByUsername(userDto.getUsername());
         if (userForSeeIfUsernameExist != null) {
             model.addAttribute("userExistMessage", "This username already exists!");
             return "user/registration";
         }
 
-        User userForSeeIfEmailExist = userRepository.getUserByEmail(userDTO.getEmail());
+        User userForSeeIfEmailExist = userRepository.getUserByEmail(userDto.getEmail());
         if (userForSeeIfEmailExist != null) {
             model.addAttribute("emailExistMessage", "This email already exists!");
             return "user/registration";
         }
-        if (!userService.ifTwoPasswordsMatch(userDTO.getPassword(), userDTO.getConfirmPassword())) {
+        if (!userService.ifTwoPasswordsMatch(userDto.getPassword(), userDto.getConfirmPassword())) {
             model.addAttribute("passwordsDoNotMatch", "Passwords do not match!");
             return "user/registration";
         }
-        User user = userMapper.toEntity(userDTO);
+        User user = userMapper.toEntity(userDto);
         userRepository.save(user);
         return "redirect:/login";
     }

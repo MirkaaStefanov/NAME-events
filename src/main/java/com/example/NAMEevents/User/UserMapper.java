@@ -8,7 +8,8 @@ import org.springframework.stereotype.Component;
 public class UserMapper {
     @Autowired
     WebSecurityConfig webSecurityConfig;
-    public User toEntity(UserDTO userDTO){
+
+    public User toEntity(UserDTO userDTO) {
         User user = new User();
         user.setUsername(userDTO.getUsername());
         user.setFirstName(userDTO.getFirstName());
