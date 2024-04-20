@@ -136,7 +136,7 @@ public class UserController {
             User user = userMapper.toEntity(userDTO);
             userRepository.save(user);
             model.addAttribute("user", user);
-            model.addAttribute("allSkills", userService.doNotChosenSkill(userDTO));
+            model.addAttribute("allSkills", userService.makingNewListWithoutChosenOnes(userDTO));
             return "user/registration-skills-cons";
         } else {
             return "id could not be find";
