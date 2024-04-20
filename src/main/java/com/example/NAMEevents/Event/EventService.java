@@ -117,7 +117,7 @@ public class EventService {
         return false;
     }
 
-    public List<User> findSuggestedUsers(Event event,Model model) {
+    public List<User> findSuggestedUsers(Event event) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         User user = userRepository.getUserByUsername(username);

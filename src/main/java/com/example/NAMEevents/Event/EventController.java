@@ -64,7 +64,9 @@ public class EventController {
         Optional<Event> optionalEvent = eventRepository.findById(eventId);
         if (optionalEvent.isPresent()) {
             Event event = optionalEvent.get();
+            List<User> usersWithPros = eventService.findSuggestedUsers(event);
             model.addAttribute("event", event);
+            model.addAttribute("usersWithPros", usersWithPros);
             return "event/event-details";
         } else {
             return "id could not be find";
