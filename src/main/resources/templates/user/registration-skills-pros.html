@@ -6,13 +6,15 @@
 </head>
 <body>
 
-<form action="#" th:action="@{/registration/choose-cons}" th:object="${userDto}" method="get">
+<form action="#" th:action="@{/registration/choose-pros}" th:object="${userDto}" method="post">
     <div>
         Choose Pros:
         <div th:each="skill : ${allSkills}">
                 <input type="checkbox" th:field="*{skillsPros}" th:value="${skill.id}" th:text="${skill.skill}"/>
+            <p th:text="${userDto.username}"> </p>
         </div>
     </div>
+
     <button type="submit" class="btn btn-primary btn-block">Continue</button>
 </form>
 

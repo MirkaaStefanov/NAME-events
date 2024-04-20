@@ -11,6 +11,7 @@
     Choose Cons:
     <div th:each="skill : ${allSkills}">
       <input type="checkbox" th:field="*{skillsCons}" th:value="${skill.id}" th:text="${skill.skill}"/>
+      <p th:text="${userDto.username}"> </p>
     </div>
   </div>
   <button type="submit" class="btn btn-primary btn-block">Submit</button>
