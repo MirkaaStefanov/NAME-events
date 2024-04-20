@@ -1,5 +1,6 @@
 package com.example.NAMEevents.User;
 
+import com.example.NAMEevents.Event.Event;
 import com.example.NAMEevents.Skill.SkillRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -7,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -30,44 +28,41 @@ public class UserController {
         model.addAttribute("userDto", new UserDTO());
         return "user/registration";
     }
-    @PostMapping("/registration")
-    public String userSubmit(){
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("userDto", userDto);
-            return "user/registration";
-        }
-        User userForSeeIfUsernameExist = userRepository.getUserByUsername(userDto.getUsername());
-        if (userForSeeIfUsernameExist != null) {
-            model.addAttribute("userExistMessage", "This username already exists!");
-            return "user/registration";
-        }
-
-        User userForSeeIfEmailExist = userRepository.getUserByEmail(userDto.getEmail());
-        if (userForSeeIfEmailExist != null) {
-            model.addAttribute("emailExistMessage", "This email already exists!");
-            return "user/registration";
-        }
-        if (!userService.ifTwoPasswordsMatch(userDto.getPassword(), userDto.getConfirmPassword())) {
-            model.addAttribute("passwordsDoNotMatch", "Passwords do not match!");
-            return "user/registration";
-        }
-        User user = userMapper.toEntity(userDto);
-        userRepository.save(user);
-        return "redirect:/registration/choose-pros";
-    }
-
-
     @GetMapping("/registration/choose-pros")
-    public String choosePros(@ModelAttribute UserDTO userDTO, Model model){
-        model.addAttribute("userDto", userDTO);
-        model.addAttribute("allSkills",skillRepository.findAll());
-        return "user/registration-skills-pros";
+    public String choosePros(@ModelAttribute UserDTO userDTO,@RequestParam("id") Long id, Model model){
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (optionalUser.isPresent()) {
+            User user = userRepository.findById(id).get();
+            model.addAttribute("userDto", userDTO);
+            model.addAttribute("allSkills",skillRepository.findAll());
+            return "user/registration-skills-pros";
+        } else {
+            return "id could not be find";
+        }
     }
-    @PostMapping("/registration/choose-pros")
-    public String chooseProsSubmit(@ModelAttribute UserDTO userDTO, Model model){
-
-
-        return "user/registration-skills-pros";
+//    @PostMapping("/registration/choose-pros")
+//    public String postChoosePros(BindingResult bindingResult,@RequestParam("id") Long id){
+//        if (bindingResult.hasErrors()) {
+//            return "user/registration-skills-pros";
+//        } else {
+////            User user = userRepository.findById(id).get();
+////            getEvent(event, updatedEvent);
+////            eventRepository.save(event);
+////            model.addAttribute("event", event);
+////            return "event-update-result";
+//        }
+//    }
+    @GetMapping("/registration/choose-cons")
+    public String chooseCons(@RequestParam("id") Long id, Model model){
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (optionalUser.isPresent()) {
+            User user = userRepository.findById(id).get();
+            model.addAttribute("user", user);
+            model.addAttribute("allSkills",skillRepository.findAll());
+            return "user/registration-skills-cons";
+        } else {
+            return "id could not be find";
+        }
     }
     @PostMapping("/registration/choose-cons")
     public String chooseCons(@ModelAttribute UserDTO userDTO, Model model){
