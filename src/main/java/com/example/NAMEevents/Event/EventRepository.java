@@ -17,9 +17,4 @@ public interface EventRepository extends CrudRepository<Event, Integer> {
                                     @Param("date") String date,
                                     @Param("minPrice") Double minPrice,
                                     @Param("maxPrice") Double maxPrice);
-//    @Query("SELECT e FROM Event e " +
-//            "JOIN events_users ON events_users.event_id=events.id " +
-//            "JOIN users ON user." +
-//            "AND (:date IS NULL OR CAST(e.date AS string) LIKE %:date%) " +
-//            "AND (:minPrice IS NULL OR :maxPrice IS NULL OR e.ticketPrice BETWEEN :minPrice AND :maxPrice)")
 }
