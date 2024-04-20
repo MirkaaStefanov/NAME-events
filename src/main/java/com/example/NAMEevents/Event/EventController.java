@@ -122,5 +122,13 @@ public class EventController {
         model.addAttribute("successfullyApplied", "You have successfully applied for the event!");
         return "event/event-details";
     }
+    @PostMapping("/send-friend-request")
+    public String sendFriendRequest(@RequestParam(name = "eventId") Integer eventId, @RequestParam(name = "userId") Long userID, Model model){
+        return eventService.sendFriendRequest(eventId, userID, model);
+    }
+    @PostMapping("/suggested-users")
+    public List<User>showSuggestedUsers(@RequestParam(name = "eventId") Integer eventId){
+        return eventService.findSuggestedUsers(eventId);
+    }
 }
 

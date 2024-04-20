@@ -40,6 +40,10 @@ public class User {
     private String graduationPlace;
     private String job;
     private String userDescription;
+    @ManyToMany
+    @JoinTable(name = "user_friend_requests",
+            joinColumns = @JoinColumn(name = "userSender_id"),
+            inverseJoinColumns = @JoinColumn(name = "userReceiver_id"))
     private List<User>friendRequests;
 
     public boolean isEnabled() {

@@ -31,7 +31,7 @@ public class UserController {
         return "user/registration";
     }
     @PostMapping("/registration")
-    public String userSubmit(){
+    public String userSubmit(@Valid @ModelAttribute UserDTO userDto, BindingResult bindingResult, Model model){
         if (bindingResult.hasErrors()) {
             model.addAttribute("userDto", userDto);
             return "user/registration";
