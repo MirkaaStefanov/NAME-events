@@ -76,7 +76,7 @@
       <div class="form-container">
         <h1 class="text-center">Registration</h1>
 
-        <form action="#" th:action="@{/registration/choose-pros}" th:object="${userDTO}" method="get">
+        <form action="#" th:action="@{/registration/choose-pros}" th:object="${userDto}" method="get">
           <div class="form-group">
             <label for="username">Username:</label>
             <input type="text" th:field="*{username}" class="form-control" id="username"
