@@ -65,6 +65,20 @@
                     </form>
                     <p th:if="${alreadyApplied}" th:text="${alreadyApplied}"></p>
                     <p th:if="${successfullyApplied}" th:text="${successfullyApplied}"></p>
+
+                    <form th:unless="${notGoing}" action="#" class="btn btn-primary" sec:authorize="hasAuthority('User')" th:action="@{'/event/mark-presence?id=' + ${event.id}}" method="post">
+                        <input type="hidden" name="eventId" th:value="${event.id}"/>
+                        <button type="submit" class="btn btn-success" th:classappend="${alreadyMarkedPresence} ? 'disabled' : ''">Mark presence</button>
+                    </form>
+                    <div th:if="${alreadyMarkedPresence}" style="color: red;">
+                        <p th:text="${alreadyMarkedPresence}"></p>
+                    </div>
+                    <div th:if="${notGoing}" style="color: red;">
+                        <p th:text="${notGoing}"></p>
+                    </div>
+                    <div th:if="${dateInFuture}" style="color: red;">
+                        <p th:text="${dateInFuture}"></p>
+                    </div>
                 </div>
                 <div class="suggested-users">
                     <h3>Suggested Users</h3>

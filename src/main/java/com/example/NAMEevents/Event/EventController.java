@@ -125,6 +125,9 @@ public class EventController {
         model.addAttribute("successfullyApplied", "You have successfully applied for the event!");
         return "event/event-details";
     }
-
+    @PostMapping("/mark-presence")
+    public String markPresence(@RequestParam(name = "eventId") Integer event_id, Model model){
+        return eventService.markPresent(event_id, model);
+    }
 }
 
