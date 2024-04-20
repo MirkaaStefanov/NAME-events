@@ -1,15 +1,22 @@
 package com.example.NAMEevents.Event;
 
+import com.example.NAMEevents.Skill.Skill;
+import com.example.NAMEevents.User.User;
+import com.example.NAMEevents.User.UserRepository;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +25,8 @@ import java.util.Optional;
 public class EventService {
     @Autowired
     EventRepository eventRepository;
+    @Autowired
+    UserRepository userRepository;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     LocalDate localDate = LocalDate.now();
@@ -89,7 +98,7 @@ public class EventService {
             minPrice = maxPrice1;
         }
 
-       model.addAttribute("allEvents", eventRepository.findByPlaceTypeDateAndPrice(name, place, date, minPrice, maxPrice));
+        model.addAttribute("allEvents", eventRepository.findByPlaceTypeDateAndPrice(name, place, date, minPrice, maxPrice));
         return "event/all-events";
     }
 
@@ -106,5 +115,30 @@ public class EventService {
             System.out.println("Parsing error!" + ex);
         }
         return false;
+    }
+
+    public List<User> findSuggestedUsers(Event event,Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userRepository.getUserByUsername(username);
+        List<Skill> skillConsList = user.getSkillsCons();
+
+        List<User> usersInEvent = event.getUsers();
+
+        List<User> usersWithPros = new ArrayList<>();
+
+        for (User oneUser : userRepository.findAll()) {
+            if (usersInEvent.contains(oneUser)) {
+                List<Skill> oneUserSkills = oneUser.getSkillsPros();
+                for (Skill authenticatedUserCon:skillConsList) {
+                    if(oneUserSkills.contains(authenticatedUserCon)){
+                        usersWithPros.add(oneUser);
+                    }
+                }
+            }
+        }
+
+        return usersWithPros;
+
     }
 }
