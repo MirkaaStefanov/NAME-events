@@ -37,10 +37,10 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "skill_id"))
     private List<Skill> skillsCons;
-
     private String graduationPlace;
     private String job;
     private String userDescription;
+    private List<User>friendRequests;
 
     public boolean isEnabled() {
         return enabled;
@@ -155,5 +155,13 @@ public class User {
 
     public void setUserDescription(String userDescription) {
         this.userDescription = userDescription;
+    }
+
+    public List<User> getFriendRequests() {
+        return friendRequests;
+    }
+
+    public void setFriendRequests(List<User> friendRequests) {
+        this.friendRequests = friendRequests;
     }
 }
