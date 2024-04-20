@@ -101,8 +101,20 @@ public class UserController {
     public String sendFriendRequest(@RequestParam(name = "eventId") Integer eventId, @RequestParam(name = "userId") Long userID, Model model){
         return userService.sendFriendRequest(eventId, userID, model);
     }
-    @PostMapping("/answer-friend-request")
-    public String answerFriendRequest(@RequestParam(name = "receiverId") Long userReceiver, Model model){
-        return userService.answerRequest(userReceiver, model);
+    @GetMapping("/all-friend-requests")
+    public String answerFriendRequest(Model model){
+        return userService.showAllRequests(model);
+    }
+    @PostMapping("/accept-request")
+    public String acceptFriendRequest(@RequestParam(name = "friend_id") Long friendId){
+        return userService.acceptRequest(friendId);
+    }
+    @PostMapping("/delete-request")
+    public String deleteFriendRequest(@RequestParam(name = "friend_id") Long friendId){
+        return userService.deleteRequest(friendId);
+    }
+    @GetMapping("/all-friends")
+    public String showAllFriends(Model model){
+        return userService.showAllFriends(model);
     }
 }

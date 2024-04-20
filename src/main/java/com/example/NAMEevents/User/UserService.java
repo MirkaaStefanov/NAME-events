@@ -51,25 +51,48 @@ public class UserService {
                 return "event/event-details";
             }
         }
-        user.getFriendRequests().add(friend);
+        friend.getFriendRequests().add(user);
         userRepository.save(user);
 
         model.addAttribute("event", event);
         model.addAttribute("successfullySent", "You have successfully sent a friend request to this user!");
         return "event/event-details";
     }
-    public String answerRequest(@RequestParam(name = "receiverId") Long id, Model model){
+    public String showAllRequests(Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        User sender = userRepository.getUserByUsername(username);
-        User receiver = userRepository.findById(id).get();
-        model.addAttribute("userReceiver", receiver);
-        List<User>usersRequests=new ArrayList<>();
-        if (sender.getFriendRequests().contains(receiver)){
-            usersRequests.add(sender);
-        }
-        model.addAttribute("requests", usersRequests);
-        return "redirect:/user/show-requests?receiverId=" + id;
+        User user = userRepository.getUserByUsername(username);
+        model.addAttribute("requests", user.getFriendRequests());
+        return "/user/show-requests";
+    }
+    public String acceptRequest(Long id){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userRepository.getUserByUsername(username);
+        User friend=userRepository.findById(id).get();
+        user.getFriends().add(friend);
+        friend.getFriends().add(user);
+        user.getFriendRequests().remove(friend);
+        userRepository.save(user);
+        userRepository.save(friend);
+
+        return "redirect:/all-friend-requests";
+    }
+    public String deleteRequest(Long id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userRepository.getUserByUsername(username);
+        User requestBy = userRepository.findById(id).get();
+        user.getFriendRequests().remove(requestBy);
+        userRepository.save(user);
+        return "redirect:/all-friend-requests";
+    }
+    public String showAllFriends(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userRepository.getUserByUsername(username);
+        model.addAttribute("allFriends", user.getFriends());
+        return "user/all-friends";
     }
 
 }

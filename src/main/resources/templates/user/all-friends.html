@@ -58,22 +58,19 @@
 
 <div class="container">
   <h1>Users Available for Chat</h1>
-  <ul class="user-list" th:each="user : ${requests}">
+  <ul class="user-list" th:each="user : ${allFriends}">
     <li class="user-item">
       <div class="user-details">
         <span class="user-name" th:text="${user.username}"></span>
       </div>
       <div class="user-action">
-        <form th:action="@{/accept-request}" method="post">
-          <input type="hidden" name="friend_id" th:value="${user.id}">
-          <button type="submit" class="btn">Accept</button>
-        </form>
-        <form th:action="@{/delete-request}" method="post">
-          <input type="hidden" name="friend_id" th:value="${user.id}">
-          <button type="submit" class="btn">Delete</button>
+        <form th:action="@{/message/show}" method="get">
+          <input type="hidden" name="receiverId" th:value="${user.id}">
+          <button type="submit" class="btn">Start Chat</button>
         </form>
       </div>
     </li>
+    <!-- Repeat the above li block for each user -->
   </ul>
 </div>
 </body>
