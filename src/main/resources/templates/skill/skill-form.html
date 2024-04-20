@@ -17,18 +17,18 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="text-center">Add Event</h3>
+                    <h3 class="text-center">Add Skill</h3>
                 </div>
                 <div class="card-body">
                     <form action="#" th:action="@{/skill/submit}" th:object="${skill}" method="post"
                           enctype="multipart/form-data">
                         <div class="form-group">
                             Skill name:
-                            <input type="text" th:field="*{skill}">
-                            <span th:if="${#fields.hasErrors('skill')}" th:errors="*{skill}"></span>
+                            <input type="text" th:field="*{skillName}">
+                            <span th:if="${#fields.hasErrors('skillName')}" th:errors="*{skillName}"></span>
                         </div>
                         <div>
-                            <button type="submit" class="btn btn-primary btn-block" value="Submit">Add event</button>
+                            <button type="submit" class="btn btn-primary btn-block" value="Submit">Add skill</button>
                             <button type="reset" class="btn btn-primary btn-block" value="Reset">Reset</button>
                         </div>
                     </form>

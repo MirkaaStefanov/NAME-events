@@ -2,17 +2,17 @@ package com.example.NAMEevents.User;
 
 import com.example.NAMEevents.Event.Event;
 import com.example.NAMEevents.Event.EventRepository;
+import com.example.NAMEevents.Skill.Skill;
+import com.example.NAMEevents.Skill.SkillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserService {
@@ -20,6 +20,8 @@ public class UserService {
     UserRepository userRepository;
     @Autowired
     EventRepository eventRepository;
+    @Autowired
+    SkillRepository skillRepository;
     public boolean ifTwoPasswordsMatch(String pass1, String pass2){
         return pass1.equals(pass2);
     }
@@ -58,4 +60,17 @@ public class UserService {
     }
 
 
+    public List<Skill> doNotChosenSkill(UserDTO userDTO){
+        Iterable<Skill> allSkills=skillRepository.findAll();
+        List<Skill> userPros=userDTO.getSkillsPros();
+        ArrayList<Skill> skillListWithoutChosenOnes= (ArrayList<Skill>) skillRepository.findAll();
+        for (Skill skill : allSkills){
+            for (int i = 0; i< userPros.size(); i++) {
+                if(skill.getSkillName().equals(userPros.get(i))){
+                    skillListWithoutChosenOnes.remove(i);
+                }
+            }
+        }
+        return skillListWithoutChosenOnes;
+    }
 }

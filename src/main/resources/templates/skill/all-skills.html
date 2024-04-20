@@ -15,6 +15,8 @@
             align-items: center;
             height: 100vh;
         }
+
+
     </style>
 </head>
 <body>
@@ -25,14 +27,19 @@
         <thead>
         <tr>
             <th scope="col">
-                Name
+                id
+            </th>
+            <th scope="col">
+                name
             </th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="skill : ${allSkills}">
             <th scope="row"
-                th:text="${skill.skill}"/>
+                th:text="${skill.id}">
+            <th scope="row"
+                th:text="${skill.skillName}"/>
         </tr>
         </tbody>
     </table>
