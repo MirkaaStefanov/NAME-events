@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,17 +58,18 @@ public class UserService {
         model.addAttribute("successfullySent", "You have successfully sent a friend request to this user!");
         return "event/event-details";
     }
-    public String answerRequest(@RequestParam(name = "receiverId") Long id){
+    public String answerRequest(@RequestParam(name = "receiverId") Long id, Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         User sender = userRepository.getUserByUsername(username);
         User receiver = userRepository.findById(id).get();
-
-        message.setSender(sender);
-        message.setReceiver(receiver);
-
-        return "redirect:/message/show?receiverId=" + id;
+        model.addAttribute("userReceiver", receiver);
+        List<User>usersRequests=new ArrayList<>();
+        if (sender.getFriendRequests().contains(receiver)){
+            usersRequests.add(sender);
+        }
+        model.addAttribute("requests", usersRequests);
+        return "redirect:/user/show-requests?receiverId=" + id;
     }
-
 
 }
