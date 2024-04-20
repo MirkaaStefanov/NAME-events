@@ -55,6 +55,8 @@
 </head>
 <body>
 
+<header th:insert="~{header.html}"></header>
+
 <div class="chat-box" id="chat-box">
     <!-- Интегриране на съществуващите съобщения -->
     <div th:each="message : ${messages}" th:text="${message.message}" class="message receiver"></div>
