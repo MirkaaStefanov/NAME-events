@@ -9,7 +9,7 @@ import java.util.Base64;
 
 @Component
 public class EventMapper {
-    public Event toEntity(EventDTO eventDTO){
+    public Event toEntity(EventDTO eventDTO) {
         Event event = new Event();
         event.setName(eventDTO.getName());
         event.setDate(eventDTO.getDate());
@@ -20,18 +20,25 @@ public class EventMapper {
         event.setTicketPrice(eventDTO.getTicketPrice());
         event.setCapacity(eventDTO.getCapacity());
         try {
-            byte[] fileContent = eventDTO.getFile().getBytes();
-            String encodedImage = Base64.getEncoder().encodeToString(fileContent);
-            event.setImage(encodedImage);
-        } catch (IOException e) {
-            System.out.println("Error reading file: " + e.getMessage());
-        } catch (IllegalStateException e) {
-            System.out.println("Invalid file input: " + e.getMessage());
+            event.setImage(Base64.getEncoder().encodeToString(eventDTO.getFile().getBytes()));
         } catch (Exception e) {
-            System.out.println("Unexpected error: " + e.getMessage());
+            System.out.println(e);
         }
 
         event.setEventStatus(EventStatus.AVAILABLE);
         return event;
+    }
+
+    public EventDTO toDto(Event event) {
+        EventDTO eventDTO = new EventDTO();
+        eventDTO.setName(event.getName());
+        eventDTO.setDate(event.getDate());
+        eventDTO.setDuration(event.getDuration());
+        eventDTO.setDescription(eventDTO.getDescription());
+        eventDTO.setPlace(event.getPlace());
+        eventDTO.setTime(event.getTime());
+        eventDTO.setTicketPrice(event.getTicketPrice());
+        eventDTO.setCapacity(event.getCapacity());
+        return eventDTO;
     }
 }

@@ -74,20 +74,18 @@ public class EventController {
     public String searchEvents(@RequestParam(name = "name", required = false) String name,
                                @RequestParam(name = "place", required = false) String place,
                                @RequestParam(name = "date", required = false) String date,
-                               @RequestParam(name = "minPrice", required = false) Double minPrice,
-                               @RequestParam(name = "maxPrice", required = false) Double maxPrice,
                                Model model) {
-        return eventService.searchEvents(name, place, date, minPrice, maxPrice, model);
+        return eventService.searchEvents(name, place, date,model);
     }
 
     @GetMapping("/update")
-    public String updateProductForm(@RequestParam("id") Integer id, Model model) {
+    public String updateProductForm(@RequestParam(name = "id") Integer id, Model model) {
         return eventService.updateForm(id, model);
     }
 
     @PostMapping("/update")
-    public String postUpdatedProduct(@RequestParam("id") Integer id, @Valid @ModelAttribute Event updatedEvent, BindingResult bindingResult, Model model) {
-        return eventService.postUpdate(id, updatedEvent, bindingResult, model);
+    public String postUpdatedProduct(@RequestParam(name = "eventId") Integer id, @Valid @ModelAttribute EventDTO eventDTO, BindingResult bindingResult) {
+        return eventService.postUpdate(id, eventDTO, bindingResult);
     }
 
     @PostMapping("/delete")

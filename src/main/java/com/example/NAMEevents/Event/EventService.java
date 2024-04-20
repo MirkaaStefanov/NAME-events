@@ -29,6 +29,8 @@ public class EventService {
     EventRepository eventRepository;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    EventMapper eventMapper;
 
     @JsonFormat(pattern = "\"yyyy-MM-dd'T'HH:mm:ss'Z'\"")
     LocalDate localDate = LocalDate.now();
@@ -38,48 +40,34 @@ public class EventService {
         Optional<Event> optionalEvent = eventRepository.findById(id);
         if (optionalEvent.isPresent()) {
             Event event = eventRepository.findById(id).get();
-            model.addAttribute("updateEvent", event);
+            EventDTO eventDTO=eventMapper.toDto(event);
+            model.addAttribute("updateEvent", eventDTO);
             return "event/event-update-form";
         } else {
             return "id could not be find";
         }
     }
 
-    public String postUpdate(Integer id, Event updatedEvent, BindingResult bindingResult, Model model) {
+    public String postUpdate(Integer id, EventDTO updatedEvent, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "event/event-update-form";
         } else {
-            Event event = eventRepository.findById(id).get();
-            getEvent(event, updatedEvent);
+            Event event = eventMapper.toEntity(updatedEvent);
+            event.setId(id);
             eventRepository.save(event);
-            model.addAttribute("event", event);
-            return "event/event-update-result";
+            return "redirect:/";
         }
     }
-
-    private Event getEvent(Event event, Event updatedEvent) {
-        event.setName(updatedEvent.getName());
-        event.setDate(updatedEvent.getDate());
-        event.setDuration(updatedEvent.getDuration());
-        event.setDescription(updatedEvent.getDescription());
-        event.setPlace(updatedEvent.getPlace());
-        event.setCapacity(updatedEvent.getCapacity());
-        event.setEventStatus(updatedEvent.getEventStatus());
-        return event;
-    }
-
     public String delete(Integer id, Model model) {
         Event event = eventRepository.findById(id).get();
         eventRepository.delete(event);
         model.addAttribute("event", event);
-        return "event/event-delete";
+        return "redirect:/";
     }
 
     public String searchEvents(String name,
                                String place,
                                String date,
-                               Double minPrice,
-                               Double maxPrice,
                                Model model) {
 
         if (place == null) {
@@ -89,19 +77,7 @@ public class EventService {
             date = "";
         }
 
-        if (minPrice == null) {
-            minPrice = (double) 0;
-        }
-        if (maxPrice == null) {
-            maxPrice = (double) Integer.MAX_VALUE;
-        }
-        if (minPrice > maxPrice) {
-            double maxPrice1 = maxPrice;
-            maxPrice = minPrice;
-            minPrice = maxPrice1;
-        }
-
-        model.addAttribute("allEvents", eventRepository.findByPlaceTypeDateAndPrice(name, place, date, minPrice, maxPrice));
+        model.addAttribute("allEvents", eventRepository.findByPlaceTypeDateAndPrice(name, place, date));
         return "event/all-events";
     }
 
