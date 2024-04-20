@@ -47,13 +47,13 @@ public class EventService {
 
     public String postUpdate(Integer id, Event updatedEvent, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            return "event-update-form";
+            return "event/event-update-form";
         } else {
             Event event = eventRepository.findById(id).get();
             getEvent(event, updatedEvent);
             eventRepository.save(event);
             model.addAttribute("event", event);
-            return "event-update-result";
+            return "event/event-update-result";
         }
     }
 
@@ -72,7 +72,7 @@ public class EventService {
         Event event = eventRepository.findById(id).get();
         eventRepository.delete(event);
         model.addAttribute("event", event);
-        return "event-delete";
+        return "event/event-delete";
     }
 
     public String searchEvents(String name,

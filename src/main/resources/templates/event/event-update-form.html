@@ -20,7 +20,7 @@
                     <h3 class="text-center">Add Event</h3>
                 </div>
                 <div class="card-body">
-                    <form action="#" th:action="@{/event/update?id=' + ${updateEvent.id}}" th:object="${updateEvent}" method="post">
+                    <form action="#" th:action="@{'/event/update?id=' + ${updateEvent.id}}" th:object="${updateEvent}" method="post">
                         <div class="form-group">
                             Event name:
                             <input type="text" th:field="*{name}">
@@ -62,14 +62,6 @@
                             Photo:
                             <input type="file" th:field="*{image}" accept="image/*">
                         </div>
-                        <div class="form-group">
-                            Status:
-                            <p th:each="eventStatus : ${allStatuses}">
-                                <input type="radio" th:value="${eventStatus.id}" th:text="${eventStatus.status}" th:field="*{eventStatus}">
-                                <span th:if="${#fields.hasErrors('eventStatus')}" th:errors="*{eventStatus}"></span>
-                            </p>
-                        </div>
-
                         <div>
                             <button type="submit" class="btn btn-primary btn-block" value="Submit">Add event</button>
                             <button type="reset" class="btn btn-primary btn-block" value="Reset">Reset</button>
