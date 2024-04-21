@@ -162,9 +162,9 @@ public class EventService {
             try {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
                 Date eventDate = dateFormat.parse(event.getDate());
-                Date currentDate = new Date();
+                Date local = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-                if (eventDate.after(currentDate)) {
+                if (eventDate.after(local)) {
                     model.addAttribute("dateInFuture", "You cannot mark your presence for a future event!");
                 } else {
                     event.getUsersPresent().add(user);
