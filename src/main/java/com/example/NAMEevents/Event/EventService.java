@@ -41,6 +41,7 @@ public class EventService {
         if (optionalEvent.isPresent()) {
             Event event = eventRepository.findById(id).get();
             EventDTO eventDTO = eventMapper.toDto(event);
+            model.addAttribute("id", id);
             model.addAttribute("updateEvent", eventDTO);
             return "event/event-update-form";
         } else {
@@ -135,9 +136,9 @@ public class EventService {
         }
 
         if (user.getEventsGoing().contains(event)) {
-            model.addAttribute("alreadyMarkedPresence", "You have already marked your presence for this event!");
+            model.addAttribute("message", "You have already marked your presence for this event!");
         } else if (!user.getEvents().contains(event)) {
-            model.addAttribute("notGoing", "You have not applied for this event!");
+            model.addAttribute("message", "You have not applied for this event!");
         } else {
             try {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -145,7 +146,7 @@ public class EventService {
                 Date local = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
                 if (eventDate.after(local)) {
-                    model.addAttribute("dateInFuture", "You cannot mark your presence for a future event!");
+                    model.addAttribute("message", "You cannot mark your presence for a future event!");
                 } else {
                     event.getUsersPresent().add(user);
                     user.getEventsGoing().add(event);

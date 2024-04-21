@@ -108,6 +108,11 @@
         </div>
         <div class="card-body">
           <form action="#" th:action="@{/registration}" th:object="${userDto}" method="post">
+            <div th:if="${#fields.hasAnyErrors()}">
+              <ul>
+                <li th:each="err : ${#fields.allErrors()}" th:text="${err}" />
+              </ul>
+            </div>
             <h3 class="mb-4">
               <label for="username" class="form-label">Username:</label>
               <input type="text" name="username" class="form-control" id="username"

@@ -2,6 +2,7 @@ package com.example.NAMEevents.User;
 
 import com.example.NAMEevents.Event.Event;
 import com.example.NAMEevents.Event.EventRepository;
+import com.example.NAMEevents.Event.EventService;
 import com.example.NAMEevents.Message.Message;
 import com.example.NAMEevents.Skill.Skill;
 import com.example.NAMEevents.Skill.SkillRepository;
@@ -13,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +28,8 @@ public class UserService {
     EventRepository eventRepository;
     @Autowired
     SkillRepository skillRepository;
+    @Autowired
+    EventService eventService;
 
     public boolean ifTwoPasswordsMatch(String pass1, String pass2) {
         return pass1.equals(pass2);
@@ -52,15 +56,19 @@ public class UserService {
         List<User> friendRequests = friend.getFriendRequests();
 
             if (friendRequests.contains(user)) {
-                model.addAttribute("alreadySent", "You have already sent a friend request to this user!");
+                model.addAttribute("message", "You have already sent a friend request to this user!");
                 model.addAttribute("event", event);
+                List<User> usersWithPros = eventService.findSuggestedUsers(eventId);
+                model.addAttribute("usersWithPros", usersWithPros);
                 return "event/event-details";
             }
 
             List<User> friends = friend.getFriends();
             if(friends.contains(user)){
-                model.addAttribute("alreadySent", "You are already friends!");
+                model.addAttribute("message", "You are already friends!");
                 model.addAttribute("event", event);
+                List<User> usersWithPros = eventService.findSuggestedUsers(eventId);
+                model.addAttribute("usersWithPros", usersWithPros);
                 return "event/event-details";
             }
 
@@ -69,7 +77,9 @@ public class UserService {
         userRepository.save(user);
 
         model.addAttribute("event", event);
-        model.addAttribute("successfullySent", "You have successfully sent a friend request to this user!");
+        model.addAttribute("message", "You have successfully sent a friend request to this user!");
+        List<User> usersWithPros = eventService.findSuggestedUsers(eventId);
+        model.addAttribute("usersWithPros", usersWithPros);
         return "event/event-details";
     }
 
