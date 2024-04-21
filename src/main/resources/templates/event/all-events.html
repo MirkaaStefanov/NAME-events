@@ -22,6 +22,7 @@
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
+
         .card-header {
             background-color: #007bff;
             color: #fff;
@@ -61,8 +62,8 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Add shadow on hover */
         }
         .event img {
-            max-width: 100%;
-            height: auto;
+            width: 350px;
+            height: 250px;
             border-radius: 10px;
         }
         .event-title {
@@ -117,7 +118,7 @@
                         <label for="date">Date:</label>
                         <input type="date" id="date" name="date" class="form-control">
                     </div>
-                    <button class="btn btn-outline-light" type="submit">Filter</button>
+                    <button class="btn btn-primary" type="submit">Filter</button>
                 </form>
             </div>
         </div>
@@ -132,7 +133,7 @@
                         <p class="event-info">Place: <span th:text="${event.place}"></span></p>
                         <form th:action="@{/event/show-event}" method="get">
                             <input type="hidden" name="eventId" th:value="${event.id}">
-                            <button type="submit" class="btn btn-danger">View Details</button>
+                            <button type="submit" class="btn btn-primary">View Details</button>
                         </form>
                     </div>
                 </div>

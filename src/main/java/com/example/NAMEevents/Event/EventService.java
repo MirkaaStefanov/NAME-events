@@ -40,7 +40,7 @@ public class EventService {
         Optional<Event> optionalEvent = eventRepository.findById(id);
         if (optionalEvent.isPresent()) {
             Event event = eventRepository.findById(id).get();
-            EventDTO eventDTO=eventMapper.toDto(event);
+            EventDTO eventDTO = eventMapper.toDto(event);
             model.addAttribute("updateEvent", eventDTO);
             return "event/event-update-form";
         } else {
@@ -58,6 +58,7 @@ public class EventService {
             return "redirect:/";
         }
     }
+
     public String delete(Integer id, Model model) {
         Event event = eventRepository.findById(id).get();
         eventRepository.delete(event);
@@ -100,12 +101,14 @@ public class EventService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         User user = userRepository.getUserByUsername(username);
+
+        List<User> usersWithPros = new ArrayList<>();
+
         List<Skill> skillConsList = user.getSkillsCons();
         Event event = eventRepository.findById(eventId).get();
 
         List<User> usersInEvent = event.getUsers();
 
-        List<User> usersWithPros = new ArrayList<>();
 
         for (User oneUser : userRepository.findAll()) {
             if (usersInEvent.contains(oneUser)) {
@@ -113,6 +116,7 @@ public class EventService {
                 for (Skill authenticatedUserCon : skillConsList) {
                     if (oneUserSkills.contains(authenticatedUserCon)) {
                         usersWithPros.add(oneUser);
+                        break;
                     }
                 }
             }
@@ -136,7 +140,7 @@ public class EventService {
             model.addAttribute("notGoing", "You have not applied for this event!");
         } else {
             try {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 Date eventDate = dateFormat.parse(event.getDate());
                 Date currentDate = new Date();
 

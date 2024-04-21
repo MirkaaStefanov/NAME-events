@@ -49,14 +49,22 @@ public class UserService {
             return "event/event-details";
         }
 
-        List<User> userFriendRequests = user.getFriendRequests();
-        for (User friendRequest : userFriendRequests) {
-            if (friendRequest.getId().equals(userId)) {
+        List<User> friendRequests = friend.getFriendRequests();
+
+            if (friendRequests.contains(user)) {
                 model.addAttribute("alreadySent", "You have already sent a friend request to this user!");
                 model.addAttribute("event", event);
                 return "event/event-details";
             }
-        }
+
+            List<User> friends = friend.getFriends();
+            if(friends.contains(user)){
+                model.addAttribute("alreadySent", "You are already friends!");
+                model.addAttribute("event", event);
+                return "event/event-details";
+            }
+
+
         friend.getFriendRequests().add(user);
         userRepository.save(user);
 

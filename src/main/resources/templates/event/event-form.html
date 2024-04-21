@@ -74,7 +74,7 @@
                             <input type="date" th:field="*{date}">
                             <span th:if="${#fields.hasErrors('date')}" th:errors="*{date}"></span>
                         <div class="error-container" th:if="${notValidDate}">
-                            <span class="error-message" th:text="${notValidDate}"></span>
+                            <span class="error-message" th:text="${notValidDate}" style="color: red;"></span>
                         </div>
                         </div>
                         <div class="form-group">
