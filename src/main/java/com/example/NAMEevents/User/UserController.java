@@ -33,25 +33,25 @@ public class UserController {
     @PostMapping("/registration")
     public String userSubmit(@Valid @ModelAttribute UserDTO userDto, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("userDto", new UserDTO());
+            model.addAttribute("userDto",userDto);
             return "user/registration";
         }
         User userForSeeIfUsernameExist = userRepository.getUserByUsername(userDto.getUsername());
         if (userForSeeIfUsernameExist != null) {
             model.addAttribute("userExistMessage", "This username already exists!");
-            model.addAttribute("userDto", new UserDTO());
+            model.addAttribute("userDto",userDto);
             return "user/registration";
         }
 
         User userForSeeIfEmailExist = userRepository.getUserByEmail(userDto.getEmail());
         if (userForSeeIfEmailExist != null) {
             model.addAttribute("emailExistMessage", "This email already exists!");
-            model.addAttribute("userDto", new UserDTO());
+            model.addAttribute("userDto",userDto);
             return "user/registration";
         }
         if (!userService.ifTwoPasswordsMatch(userDto.getPassword(), userDto.getConfirmPassword())) {
             model.addAttribute("passwordsDoNotMatch", "Passwords do not match!");
-            model.addAttribute("userDto", new UserDTO());
+            model.addAttribute("userDto",userDto);
             return "user/registration";
         }
         User user = userMapper.toEntity(userDto);

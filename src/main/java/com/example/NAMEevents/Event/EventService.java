@@ -41,6 +41,7 @@ public class EventService {
         if (optionalEvent.isPresent()) {
             Event event = eventRepository.findById(id).get();
             EventDTO eventDTO = eventMapper.toDto(event);
+            model.addAttribute("id", id);
             model.addAttribute("updateEvent", eventDTO);
             return "event/event-update-form";
         } else {
