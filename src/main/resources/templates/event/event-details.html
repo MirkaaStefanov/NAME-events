@@ -131,10 +131,33 @@
         .user-card p {
             margin-bottom: 10px;
         }
+         .message-box {
+            background-color: #88B2FD; /* Green background */
+            color: #fff; /* White text */
+            text-align: center;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
     </style>
+    <script th:inline="javascript">
+    setTimeout(function() {
+        var messageDiv = document.getElementById("messageDiv");
+        if (messageDiv) {
+            messageDiv.style.display = 'none';
+        }
+    }, 3000);
+
+    </script>
 </head>
 <body>
 <header th:insert="~{header.html}"></header>
+
+<div th:if="${message != null and message != ''}" id="messageDiv" class="message-box">
+    <p th:text="${message}"></p>
+</div>
+
 <div class="container mt-4">
     <div class="row">
         <div class="col-md-12">

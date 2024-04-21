@@ -57,13 +57,14 @@ public class EventController {
 
 
     @GetMapping("/show-event")
-    public String getEventDetails(@RequestParam(name = "eventId") Integer eventId, Model model) {
+    public String getEventDetails(@RequestParam(name = "eventId") Integer eventId, Model model, @ModelAttribute("message")String message) {
         Optional<Event> optionalEvent = eventRepository.findById(eventId);
         if (optionalEvent.isPresent()) {
             Event event = optionalEvent.get();
             List<User> usersWithPros = eventService.findSuggestedUsers(eventId);
-            model.addAttribute("event", event);
             model.addAttribute("usersWithPros", usersWithPros);
+            model.addAttribute("event", event);
+            model.addAttribute("message", message);
             return "event/event-details";
         } else {
             return "id could not be find";
@@ -103,7 +104,7 @@ public class EventController {
         List<Event> events = user.getEvents();
         for (Event listEvent : events) {
             if (listEvent.equals(event)) {
-                model.addAttribute("alreadyApplied", "You have already applied for this event!");
+                model.addAttribute("message", "You have already applied for this event!");
                 model.addAttribute("event", event);
                 return "event/event-details";
             }
@@ -114,7 +115,7 @@ public class EventController {
         eventRepository.save(event);
 
         model.addAttribute("event", event);
-        model.addAttribute("successfullyApplied", "You have successfully applied for the event!");
+        model.addAttribute("message", "You have successfully applied for the event!");
         return "event/event-details";
     }
     @PostMapping("/mark-presence")
