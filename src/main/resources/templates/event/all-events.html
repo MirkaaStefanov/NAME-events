@@ -61,8 +61,8 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Add shadow on hover */
         }
         .event img {
-            max-width: 100%;
-            height: auto;
+            width: 350px;
+            height: 250px;
             border-radius: 10px;
         }
         .event-title {
@@ -86,6 +86,7 @@
             position: sticky;
             top: 20px;
             left: 20px;
+            margin-right: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         @media (min-width: 768px) {
@@ -116,13 +117,13 @@
                         <label for="date">Date:</label>
                         <input type="date" id="date" name="date" class="form-control">
                     </div>
-                    <button class="btn btn-outline-light" type="submit">Filter</button>
+                    <button class="btn btn-primary" type="submit">Filter</button>
                 </form>
             </div>
         </div>
         <div class="col-md-9">
             <h1 class="text-center mb-4">All Events</h1>
-            <div class="row " style="margin-left:10px">
+            <div class="row">
                 <div th:each="event : ${allEvents}" class="col-md-6">
                     <div class="event">
                         <img th:src="'data:image/jpeg;base64,' + ${event.image}" alt="Event Image">
