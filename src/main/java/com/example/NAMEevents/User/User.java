@@ -185,9 +185,6 @@ public class User {
         this.friends = friends;
     }
 
-
-
-
     public List<Event> getEventsGoing() {
         return eventsGoing;
     }
