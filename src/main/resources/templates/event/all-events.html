@@ -105,12 +105,12 @@
                 <h2>Filter</h2>
                 <form action="#" th:action="@{/event/search}" method="get">
                     <div class="form-group">
-                        <label for="name">Name:</label>
-                        <input type="text" id="name" name="name" class="form-control">
+                        <label for="name" >Name:</label>
+                        <input type="text" id="name" name="name" class="form-control" placeholder="What are looking for:">
                     </div>
                     <div class="form-group">
                         <label for="place">Place:</label>
-                        <input type="text" id="place" name="place" class="form-control">
+                        <input type="text" id="place" name="place" class="form-control" placeholder="Where are you looking for:">
                     </div>
                     <div class="form-group">
                         <label for="date">Date:</label>
@@ -122,7 +122,7 @@
         </div>
         <div class="col-md-9">
             <h1 class="text-center mb-4">All Events</h1>
-            <div class="row">
+            <div class="row " style="margin-left:10px">
                 <div th:each="event : ${allEvents}" class="col-md-6">
                     <div class="event">
                         <img th:src="'data:image/jpeg;base64,' + ${event.image}" alt="Event Image">
@@ -131,7 +131,7 @@
                         <p class="event-info">Place: <span th:text="${event.place}"></span></p>
                         <form th:action="@{/event/show-event}" method="get">
                             <input type="hidden" name="eventId" th:value="${event.id}">
-                            <button type="submit" class="btn btn-danger">View Details</button>
+                            <button type="submit" class="btn btn-outline-primary">View details</button>
                         </form>
                     </div>
                 </div>

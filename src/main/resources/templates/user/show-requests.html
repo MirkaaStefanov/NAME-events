@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Users Available for Chat</title>
-  <style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users Available for Chat</title>
+    <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -36,33 +36,42 @@
             display: flex;
             align-items: center;
         }
+         .user-action {
+            margin-left: auto;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
         .user-name {
             font-weight: bold;
         }
+
     </style>
 </head>
 <body>
 <header th:insert="~{header.html}"></header>
 
 <div class="container">
-  <h1>Friend requests</h1>
-  <ul class="user-list" th:each="user : ${requests}">
-    <li class="user-item">
-      <div class="user-details">
-        <span class="user-name" th:text="${user.username}"></span>
-      </div>
-      <div class="user-action">
-        <form th:action="@{/accept-request}" method="post">
-          <input type="hidden" name="friend_id" th:value="${user.id}">
-          <button type="submit" class="btn">Accept</button>
-        </form>
-        <form th:action="@{/delete-request}" method="post">
-          <input type="hidden" name="friend_id" th:value="${user.id}">
-          <button type="submit" class="btn">Delete</button>
-        </form>
-      </div>
-    </li>
-  </ul>
+    <h1>Friend requests</h1>
+    <ul class="user-list " th:each="user : ${requests}">
+        <li class="user-item">
+            <div class="user-details">
+                <span class="user-name" th:text="${user.username}"></span>
+            </div>
+            <div class="user-action">
+                <div style="align-items: end;">
+                    <form th:action="@{/accept-request}" method="post">
+                        <input type="hidden" name="friend_id" th:value="${user.id}">
+                        <button type="submit" style="margin-bottom :10px" class="btn btn-primary">Accept</button>
+                    </form>
+                    <form th:action="@{/delete-request}" method="post">
+                        <input type="hidden" name="friend_id" th:value="${user.id}">
+                        <button type="submit" style="margin-left:10px" class="btn btn-outline-secondary">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </li>
+    </ul>
 </div>
 </body>
 </html>
